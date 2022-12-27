@@ -8,6 +8,8 @@ import {
 
 import Header from './components/Header'
 import Home from './Pages/Home'
+import './styles/application.scss'
+import * as bootstrap from 'bootstrap'
 
 const App = () => {
 
@@ -18,7 +20,7 @@ const App = () => {
   return (
     <React.Fragment>
       <Router forceRefresh={true}>
-        <Header title="Huma Cosmetica Natural"/>
+        <Header title="Huma"/>
 
         <Routes>
           <Route path="/" element={<Home />} />
