@@ -12,8 +12,6 @@ const LinkStyle = css({
   fontSize: '1.1rem'
 })
 
-
-
 function Header({title}) {
 
   return (
@@ -26,7 +24,7 @@ function Header({title}) {
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
-        borderBottom: '0.5px solid'
+        borderBottom: `0.5px solid ${colors.purple}`
       }}>
         <h1 css={{color: colors.purple20}}>{title}</h1>
         <div>
@@ -43,7 +41,7 @@ function Header({title}) {
         display: 'flex',
         gap: '1rem',
         alignItems: 'center',
-        borderBottom: '0.5px solid'
+        borderBottom: `0.5px solid ${colors.purple}`
       }}>
         <Link className={LinkStyle} to="/tienda">Tienda</Link>
         <Link className={LinkStyle} to="/contacto">Contacto</Link>

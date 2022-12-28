@@ -29,3 +29,10 @@ a:hover,
 a:focus {
   text-decoration: underline;
 }
+
+// Carousel
+
+.carouselContainer .carousel-inner .carousel-item {
+  max-height: 400px;
+  min-width: auto;
+}
