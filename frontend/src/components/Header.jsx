@@ -17,9 +17,9 @@ function Header({title}) {
 
   return (
     <>
-      <header>
-        <h1>{title}</h1>
-        <div>
+      <header className="bg-white">
+        <div className="flex justify-between items-center">
+          <div className="text-2xl">{title}</div>
           <button variant='secondary' onClick={() => alert('search clicked')}>
             {/* <Search  size='25'/> */}
           </button>

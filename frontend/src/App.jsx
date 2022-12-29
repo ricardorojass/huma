@@ -9,8 +9,6 @@ import {
 import Header from './components/Header'
 import MainCarousel from './components/Carousel'
 import Home from './Pages/Home'
-import './styles/application.scss'
-import * as bootstrap from 'bootstrap'
 
 const App = () => {
 

@@ -8,11 +8,37 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NODE_ENV = process.env.NODE_ENV;
 const isProd = NODE_ENV === 'production';
 
+const plugins = [
+  new HtmlWebPackPlugin({
+    template: path.resolve(__dirname, 'src/index.html'),
+    inject: 'body'
+  }),
+  new MiniCssExtractPlugin({
+    filename: isProd ? "css/[name].[contenthash].css" : "css/[name].css",
+    chunkFilename: isProd ? "css/[id].[contenthash].css" : "css/[id].css",
+  }),
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: path.resolve(__dirname, 'public'),
+        to: path.resolve(__dirname, 'dist/public')
+      }
+    ]
+  })
+]
+
 module.exports = {
-  entry: './src/index.js',
+  plugins,
+  mode: 'development',
+  entry: {
+    'app': [
+      path.resolve(__dirname, 'src/index.js')
+    ]
+  },
   output: {
+    filename: 'js/[name].js',
     path: path.resolve(__dirname, 'dist/client'),
-    filename: 'js[name].js',
+    publicPath: '/'
   },
   resolve: {
     extensions: [".js", ".jsx"]
@@ -33,12 +59,11 @@ module.exports = {
         test: /\.js$/,
         loader: "source-map-loader"
       },
+      // SCSS files
       {
-        test: /\.(scss)$/,
+        test: /\.s?css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
+          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -50,35 +75,14 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: () => [ autoprefixer, tailwindcss ]
+                plugins: [ autoprefixer(), tailwindcss(), 'postcss-import' ]
               }
             },
           },
-          {
-            loader: 'sass-loader'
-          }
+          'sass-loader'
         ],
       }
     ]
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './src/index.html',
-      filename: './index.html'
-    }),
-    new MiniCssExtractPlugin({
-      attributes: {
-        filename: 'css/[name].[hash].css',
-        chunkFilename: '[id].css'
-      }
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'public'),
-          to: path.resolve(__dirname, 'dist/public')
-        }
-      ]
-    })
-  ]
+
 };
