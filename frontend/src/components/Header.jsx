@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from './lib'
+// import { Button } from './lib'
 import * as colors from '../styles/colors'
 
 {/* <header css={{
@@ -17,14 +17,15 @@ function Header({title}) {
 
   return (
     <>
+      <header>
         <h1>{title}</h1>
         <div>
-          <Button variant='secondary' onClick={() => alert('search clicked')}>
-            <Search  size='25'/>
-          </Button>
-          <Button variant='secondary' onClick={() => alert('cart clicked')}>
+          <button variant='secondary' onClick={() => alert('search clicked')}>
+            {/* <Search  size='25'/> */}
+          </button>
+          <button variant='secondary' onClick={() => alert('cart clicked')}>
             {/* <Cart3  size='25'/> */}
-          </Button>
+          </button>
         </div>
       </header>
       <div>

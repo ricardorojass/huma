@@ -1,4 +1,7 @@
-@import "~bootstrap/scss/bootstrap";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "common";
 
 /* clears the 'X' from Internet Explorer */
 input[type='search']::-ms-clear {
@@ -29,5 +32,3 @@ a:hover,
 a:focus {
   text-decoration: underline;
 }
-
-// Carousel
