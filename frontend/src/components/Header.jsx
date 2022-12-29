@@ -17,14 +17,14 @@ function Header({title}) {
 
   return (
     <>
-      <header className="bg-white">
+      <header className="bg-indigo">
         <div className="flex justify-between items-center">
-          <div className="text-2xl">{title}</div>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <button variant='secondary' onClick={() => alert('search clicked')}>
-            {/* <Search  size='25'/> */}
+            {/* <Search  size='25'/> */}Search
           </button>
           <button variant='secondary' onClick={() => alert('cart clicked')}>
-            {/* <Cart3  size='25'/> */}
+            {/* <Cart3  size='25'/> */}Cart
           </button>
         </div>
       </header>
