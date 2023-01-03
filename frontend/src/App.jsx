@@ -7,7 +7,6 @@ import {
 } from "react-router-dom"
 
 import Header from './components/Header'
-import MainCarousel from './components/Carousel'
 import Home from './Pages/Home'
 
 const App = () => {
@@ -20,7 +19,6 @@ const App = () => {
     <React.Fragment>
       <Router forceRefresh={true}>
         <Header title="Huma"/>
-        <MainCarousel />
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
