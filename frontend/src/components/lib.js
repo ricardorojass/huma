@@ -3,6 +3,7 @@
 import {jsx, keyframes} from '@emotion/react'
 import styled from '@emotion/styled'
 import * as colors from '../styles/colors'
+import * as mq from '../styles/media-queries'
 
 const spin = keyframes({
   '0%': {transform: 'rotate(0deg)'},

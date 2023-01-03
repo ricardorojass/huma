@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import * as React from 'react'
+import { CiShoppingCart } from 'react-icons/Ci'
 import { css, jsx } from '@emotion/react'
 import { Link } from 'react-router-dom'
 import { Button, Input, FormGroup } from './lib'
@@ -55,7 +56,9 @@ function Header({title}) {
           <a href="#" css={baseLink}
           >Lineas</a>
           <a href="#" css={[baseLink, commonLink]}>Nuevos</a>
-          <a href="#" css={[baseLink, commonLink]}>Blog</a>
+          <a href="#" css={[baseLink, commonLink]}>
+            <CiShoppingCart />
+          </a>
         </nav>
       </div>
     </header>
