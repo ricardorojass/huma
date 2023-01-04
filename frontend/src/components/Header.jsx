@@ -48,10 +48,11 @@ function Header({title}) {
                   Lineas
                   <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
                 </a>
-                <ul className="p-6 leading-8 bg-base-100 rounded-3xl">
+                <ul className="p-6 leading-8 bg-base-100 rounded-3xl w-52">
                   <li><a href="#" className="pt-1 md:hover:text-secondary">Facial</a></li>
                   <li><a href="#" className="pt-1 md:hover:text-secondary">Capilar</a></li>
                   <li><a href="#" className="pt-1 md:hover:text-secondary">Bienestar</a></li>
+                  <li><a href="#" className="pt-1 md:hover:text-secondary">Aceites Esenciales</a></li>
                 </ul>
               </li>
               <li><a  href="#" className="px-4 font-bold text-text md:hover:text-secondary">Item 2</a></li>
