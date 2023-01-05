@@ -48,13 +48,16 @@ function ListProductList() {
 
 
   return (
-    <ul className="grid grid-cols-5 grid-rows-1 gap-6">
-      {products.map(p => (
-        <li key={p.id} aria-label={p.name}>
-          <ProductRow product={p} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <div className="pb-5 text-3xl font-bold">Bienestar</div>
+      <ul className="grid grid-cols-5 grid-rows-1 gap-6">
+        {products.map(p => (
+          <li key={p.id} aria-label={p.name}>
+            <ProductRow product={p} />
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
