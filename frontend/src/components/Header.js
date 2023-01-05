@@ -1,18 +1,7 @@
 /** @jsx jsx */
-import * as React from 'react'
 import { CiShoppingCart } from 'react-icons/ci'
 import { css, jsx } from '@emotion/react'
-import { Link } from 'react-router-dom'
 import { Button, Input, FormGroup } from './lib'
-import * as colors from '../styles/colors'
-
-const baseLink = css({
-  color: `${colors.text}`,
-  fontWeight: '700',
-})
-const commonLink = css({
-  paddingLeft: '10px'
-})
 
 function Header({title}) {
 
@@ -40,7 +29,7 @@ function Header({title}) {
               <li><a>Item 3</a></li>
             </ul>
           </div>
-          <a className="font-bold text-text">Huma</a>
+          <a href="/" className="font-bold text-text">Huma</a>
           <div className="hidden lg:flex">
             <ul className="px-4 menu menu-horizontal">
               <li tabIndex={0}>

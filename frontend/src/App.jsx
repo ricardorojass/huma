@@ -7,7 +7,7 @@ import {
 } from "react-router-dom"
 
 import Header from './components/Header'
-import Home from './Pages/Home'
+import Shop from './Pages/Shop'
 
 const App = () => {
 
@@ -20,7 +20,7 @@ const App = () => {
       <Router forceRefresh={true}>
         <Header title="Huma"/>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Shop />} />
         </Routes>
         <footer>This is the footer</footer>
       </Router>
