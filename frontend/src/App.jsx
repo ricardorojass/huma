@@ -6,9 +6,10 @@ import {
   Route
 } from "react-router-dom"
 
-import Header from './components/Header'
-import Shop from './Pages/Shop'
-import Product from './Pages/Product'
+const Header = React.lazy(() => import('./components/Header'))
+const Shop = React.lazy(() => import('./Pages/Shop'))
+const Product = React.lazy(() => import('./Pages/Product'))
+import { FullPageSpinner } from './components/lib'
 
 const App = () => {
 
@@ -17,7 +18,7 @@ const App = () => {
   })
 
   return (
-    <React.Fragment>
+    <React.Suspense fallback={<FullPageSpinner />}>
       <Router forceRefresh={true}>
         <Header title="Huma"/>
         <Routes>
@@ -26,7 +27,7 @@ const App = () => {
         </Routes>
         <footer>This is the footer</footer>
       </Router>
-    </React.Fragment>
+    </React.Suspense>
   )
 }
 

@@ -17,7 +17,7 @@ export default () => {
 
 
   return (
-    <div className="h-full p-6 bg-base-200">
+    <div className="h-screen p-6 mt-24 bg-base-200">
       <ListProductList />
     </div>
   )

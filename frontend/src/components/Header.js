@@ -6,7 +6,7 @@ import { Button, Input, FormGroup } from './lib'
 function Header({title}) {
 
   return (
-    <header className="top-0 left-0 w-full bg-base-200 md:fixed z-100">
+    <header className="top-0 left-0 z-50 w-full bg-base-200 md:fixed ">
       <div className="p-6 navbar">
         <div className="navbar-start">
           <div className="dropdown">

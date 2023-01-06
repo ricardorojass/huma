@@ -4,8 +4,8 @@ import {jsx} from '@emotion/react'
 export default ({product}) => {
 
   return (
-    <div className="mx-auto lg:px-8 bg-base-200">
-      <div className="flex flex-wrap w-full md:pt-20">
+    <div className="mx-auto mt-24 lg:p-6 bg-base-200">
+      <div className="flex flex-wrap w-full">
         <div className="w-full md:w-1/2">
           <div className="py-4 max-w-[100vw] md:pr-8 md:py-4">
             <div className="overflow-hidden">
