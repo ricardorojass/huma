@@ -7,6 +7,7 @@ const products = [
     id: 1,
     name: 'Bruma',
     description: 'Ideal para el sueño',
+    category: 'Bienestar',
     value: '26',
     size: '120ml'
   },
@@ -14,6 +15,7 @@ const products = [
     id: 2,
     name: 'Shampoo de Cebolla',
     description: 'Ideal para evitar la caida del cabello',
+    category: 'Capilar',
     value: '28',
     size: '150ml'
   },
@@ -21,6 +23,7 @@ const products = [
     id: 3,
     name: 'Vela de Soya',
     description: 'Ultrahidratante natural',
+    category: 'Bienestar',
     value: '29',
     size: '100gr'
   },
@@ -28,6 +31,7 @@ const products = [
     id: 4,
     name: 'Aceite Terapeutico',
     description: 'Reduce el dolor y activa la circulacion',
+    category: 'Bienestar',
     value: '32',
     size: '20ml'
   },
@@ -35,6 +39,7 @@ const products = [
     id: 5,
     name: 'Roll-On Mentolado',
     description: 'Disminuye congestion nasal y la migraña',
+    category: 'Bienestar',
     value: '23',
     size: '7gr'
   },

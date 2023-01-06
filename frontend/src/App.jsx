@@ -8,6 +8,7 @@ import {
 
 import Header from './components/Header'
 import Shop from './Pages/Shop'
+import Product from './Pages/Product'
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
         <Header title="Huma"/>
         <Routes>
           <Route path="/" element={<Shop />} />
+          <Route path="/product/:productId" element={<Product />} />
         </Routes>
         <footer>This is the footer</footer>
       </Router>
