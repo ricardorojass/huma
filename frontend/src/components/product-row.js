@@ -6,7 +6,7 @@ function ProductRow({product}) {
   const { name, description, value, size } = product
 
   return (
-    <div className="flex flex-col overflow-hidden shadow-xl h-96 w-fit card-compact bg-base-100 rounded-xl">
+    <div className="flex flex-col overflow-hidden shadow-xl h-96 w-fit card-compact card bg-base-100">
       <figure><img src="https://placeimg.com/400/225/arch" alt={`${name}`} /></figure>
       <div className="card-body">
         <Link to={`/product/${product.id}`}
@@ -17,7 +17,7 @@ function ProductRow({product}) {
         </Link>
         <p className="pt-12">${value} pesos</p>
         <div className="justify-center card-actions">
-          <button className="w-full text-base font-bold rounded-md text-base-100 bg-primary btn bnt-primay">Añadir a la cesta</button>
+          <button className="w-full text-base font-bold text-base-100 bg-primary btn bnt-primary">Añadir a la cesta</button>
         </div>
       </div>
     </div>
