@@ -10,24 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_12_025359) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_12_202740) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_categories_on_product_id"
-  end
-
-  create_table "categories_products", id: false, force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.bigint "category_id", null: false
-    t.index ["category_id", "product_id"], name: "index_categories_products_on_category_id_and_product_id"
-    t.index ["product_id", "category_id"], name: "index_categories_products_on_product_id_and_category_id"
   end
 
   create_table "coupons", force: :cascade do |t|
@@ -86,6 +77,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_12_025359) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "thumbnail"
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["name"], name: "index_products_on_name"
   end
 
@@ -109,9 +102,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_12_025359) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
-  add_foreign_key "categories", "products"
   add_foreign_key "customers", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "customers"
+  add_foreign_key "products", "categories"
 end

@@ -6,6 +6,7 @@ FactoryBot.define do
     sale_price { "12.000" }
     purchase_price { "" }
     active { true }
+    association :category
   end
 
   factory :rollonMenta, class: Product do
@@ -15,5 +16,6 @@ FactoryBot.define do
     sale_price { "24.000" }
     purchase_price { "" }
     active { true }
+    association :category
   end
 end
