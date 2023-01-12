@@ -13,3 +13,10 @@ rollonMenta = Product.create!(name: 'Roll on Menta', description: 'Ideal para el
 velaSandia = Product.create!(name: 'Vela de Soya Sandia', description: 'Ultrahidratante natural', cost_price: '16.000', sale_price: '19.000')
 velaMaracuya = Product.create!(name: 'Vela de Soya Maracuya', description: 'Ultrahidratante natural', cost_price: '16.000', sale_price: '19.000')
 aceiteTerapeutico = Product.create!(name: 'Aceite Terapeutico', description: 'Reduce el dolor y activa la circulacion', cost_price: '15.000', sale_price: '32.000')
+
+# categories
+Category.create!(name: 'Bienestar', product: bruma)
+Category.create!(name: 'Bienestar', product: rollonMenta)
+Category.create!(name: 'Bienestar', product: velaSandia)
+Category.create!(name: 'Bienestar', product: velaMaracuya)
+Category.create!(name: 'Bienestar', product: aceiteTerapeutico)
