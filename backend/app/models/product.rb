@@ -6,4 +6,7 @@ class Product < ApplicationRecord
   validates :sale_price, presence: true
 
   mount_base64_uploader :thumbnail, ThumbnailUploader
+
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 end

@@ -13,6 +13,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :thumbnail, String
     field :products_count, Integer, null: true
+    field :category, Types::CategoryType, null: false
 
     def products_count
       object.products.size
