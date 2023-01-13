@@ -68,6 +68,8 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
+    ast (2.4.2)
+    awesome_print (1.9.2)
     bcrypt (3.1.18)
     bootsnap (1.15.0)
       msgpack (~> 1.2)
@@ -84,6 +86,7 @@ GEM
       carrierwave (>= 2.2.1)
       marcel (~> 1.0.0)
       mime-types (~> 3.0)
+    coderay (1.1.3)
     concurrent-ruby (1.1.10)
     crack (0.4.5)
       rexml
@@ -123,6 +126,7 @@ GEM
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
+    json (2.6.3)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -152,7 +156,15 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.10-x86_64-darwin)
       racc (~> 1.4)
+    parallel (1.22.1)
+    parser (3.2.0.0)
+      ast (~> 2.4.1)
     pg (1.4.5)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -188,7 +200,9 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
       zeitwerk (~> 2.5)
+    rainbow (3.1.1)
     rake (13.0.6)
+    regexp_parser (2.6.1)
     reline (0.3.2)
       io-console (~> 0.5)
     rexml (3.2.5)
@@ -209,6 +223,19 @@ GEM
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
     rspec-support (3.12.0)
+    rubocop (1.43.0)
+      json (~> 2.3)
+      parallel (~> 1.10)
+      parser (>= 3.2.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.24.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.24.1)
+      parser (>= 3.1.1.0)
+    ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     shoulda-matchers (5.3.0)
@@ -225,6 +252,7 @@ GEM
     timeout (0.3.1)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    unicode-display_width (2.4.2)
     webmock (3.18.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -238,6 +266,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  awesome_print
   bcrypt (~> 3.1.7)
   bootsnap
   carrierwave
@@ -249,10 +278,12 @@ DEPENDENCIES
   graphiql-rails
   graphql
   pg (~> 1.1)
+  pry-rails
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.4)
   rspec-rails
+  rubocop (~> 1.43)
   shoulda-matchers
   tzinfo-data
   webmock

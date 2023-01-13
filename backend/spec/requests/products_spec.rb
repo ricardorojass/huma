@@ -2,9 +2,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Products', type: :request do
-
-  let(:bruma) { create(:bruma )}
-  let(:rollonMenta) { create(:rollonMenta )}
+  let(:bruma) { create(:bruma) }
+  let(:rollonMenta) { create(:rollonMenta) }
 
   # Putting them in an array make it easier to create them in one line
   let(:products) { [bruma, rollonMenta] }
@@ -27,7 +26,6 @@ RSpec.describe 'Products', type: :request do
       it 'receives all 2 products' do
         expect(json_body['data'].size).to eq 2
       end
-
     end
   end
 end

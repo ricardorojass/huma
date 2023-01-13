@@ -2,9 +2,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-
-  let(:richi) { create(:richi )}
-  let(:vane) { create(:vane )}
+  let(:richi) { create(:richi) }
+  let(:vane) { create(:vane) }
 
   # Putting them in an array make it easier to create them in one line
   let(:users) { [richi, vane] }
@@ -27,7 +26,6 @@ RSpec.describe 'Users', type: :request do
       it 'receives all 2 users' do
         expect(json_body['data'].size).to eq 2
       end
-
     end
   end
 end
