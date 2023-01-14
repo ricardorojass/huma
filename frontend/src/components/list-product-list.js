@@ -22,10 +22,6 @@ function ListProductList() {
   const { loading, error, data } = useQuery(GET_PRODUCTS_BY_CATEGORY);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
-  // if (!products.length) {
-  //   return <div css={{marginTop: '1em', fontSize: '1.2em'}}>No Products</div>
-  // }
-
 
   return (
     <div>

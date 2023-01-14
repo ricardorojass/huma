@@ -1,7 +1,20 @@
 /** @jsx jsx */
-import {jsx} from '@emotion/react'
+import {jsx} from '@emotion/react';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { GET_PRODUCT } from '../queries';
 
-export default ({product}) => {
+export default () => {
+  let { productId } = useParams();
+  console.log(useParams());
+  const { loading, error, data } = useQuery(GET_PRODUCT, {
+    variables: { productId },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  const { product } = data;
 
   return (
     <div className="mx-auto mt-24 lg:p-6 bg-base-200">
@@ -10,7 +23,7 @@ export default ({product}) => {
           <div className="py-4 max-w-[100vw] md:pr-8 md:py-4">
             <div className="overflow-hidden">
               <div className="box-content flex h-full">
-                <figure><img className="block w-full rounded-2xl" src="https://placeimg.com/800/600/nature" alt={`${name}`} /></figure>
+                <figure><img className="block w-full rounded-2xl" src="https://placeimg.com/800/600/nature" alt={`${product.name}`} /></figure>
               </div>
             </div>
           </div>
@@ -19,7 +32,7 @@ export default ({product}) => {
               <header>
                 <h3 className="text-3xl font-bold lg:text-4xl">Acerca de este producto</h3>
                 <div className="py-8">
-                  <p>Descripcion</p>
+                  <p>{product.description}</p>
                 </div>
               </header>
             </section>
@@ -57,7 +70,7 @@ export default ({product}) => {
                   <li className="text-lg">Brumas</li>
                 </ul>
               </nav>
-              <h1 className="text-3xl leading-snug lg:text-5xl">Name</h1>
+              <h1 className="text-3xl leading-snug lg:text-5xl">{product.name}</h1>
               <div className="mt-4 uppercase">
                 <div className="flex items-center font-medium leading-none">
                   <div className="py-2 text-lg leading-none">
@@ -65,7 +78,7 @@ export default ({product}) => {
                   </div>
                 </div>
               </div>
-              <div className="text-lg">$Value</div>
+              <div className="text-lg">${product.salePrice}</div>
               <div className="mt-4 md:mt-7">
                 <div className="relative flex-col items-center">
                   <select className="max-w-xs select select-bordered" name="count" id={`product-count${1}`}>
