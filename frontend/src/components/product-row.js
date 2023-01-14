@@ -3,7 +3,7 @@ import {jsx} from '@emotion/react'
 import { Link } from 'react-router-dom'
 
 function ProductRow({product}) {
-  const { name, description, value, size } = product
+  const { name, description, salePrice, size } = product
 
   return (
     <div className="flex flex-col overflow-hidden shadow-xl h-96 w-fit card-compact card bg-base-100">
@@ -15,7 +15,7 @@ function ProductRow({product}) {
           <p className="text-base text-neutral">{description}</p>
 
         </Link>
-        <p className="pt-12">${value} pesos</p>
+        <p className="pt-12">${salePrice} pesos</p>
         <div className="justify-center card-actions">
           <button className="w-full text-base font-bold text-base-100 bg-primary btn bnt-primary">Añadir a la cesta</button>
         </div>

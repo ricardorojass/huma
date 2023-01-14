@@ -26,6 +26,5 @@ module Types
       Category.find_by(name: name)
     end
 
-    field :fetch_users, resolver: Queries::FetchUsers
   end
 end
