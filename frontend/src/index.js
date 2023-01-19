@@ -4,6 +4,7 @@ import {
   ApolloProvider,
   InMemoryCache,
   ApolloClient,
+  ApolloLink,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { createUploadLink } from 'apollo-upload-client';

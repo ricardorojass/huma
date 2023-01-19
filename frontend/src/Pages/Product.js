@@ -6,7 +6,6 @@ import { GET_PRODUCT } from '../queries';
 
 export default () => {
   let { productId } = useParams();
-  console.log(useParams());
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: { productId },
   });

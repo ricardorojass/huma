@@ -11,7 +11,7 @@ module Types
     field :active, Boolean
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :thumbnail, String
+    field :thumbnail, String, null: true
     field :products_count, Integer, null: true
     field :category, Types::CategoryType, null: false
 

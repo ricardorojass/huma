@@ -1,14 +1,33 @@
 class Mutations::CreateProduct < Mutations::BaseMutation
   argument :name, String, required: true
   argument :description, String, required: true
-  argument :cost_price, Float, required: true
-  argument :sale_price, Float, required: true
+  argument :category, String, required: true
+  argument :costPrice, Float, required: true
+  argument :salePrice, Float, required: true
+  argument :image, ApolloUploadServer::Upload, required: false
 
-  field :product, Types::ProductType, null: false
+  field :product, Types::ProductType, null: true
   field :errors, [String], null: false
 
-  def resolve(name:, description:)
-    product = Product.new(name: name, description: description, cost_price: cost_price, sale_price: sale_price)
+  def resolve(name:, description:, category:,  costPrice:, salePrice:, image:)
+    p
+    p "image"
+    p image
+    p
+    categoryRecord = Category.find_by(name: category)
+    blob = ActiveStorage::Blob.create_and_upload!(
+      io: image,
+      filename: image.original_filename,
+      content_type: image.content_type
+    )
+    product = Product.new(
+      name: name,
+      description: description,
+      category: categoryRecord,
+      cost_price: costPrice,
+      sale_price: salePrice,
+      thumbnail: blob
+    )
 
     if product.save
       {
@@ -18,7 +37,7 @@ class Mutations::CreateProduct < Mutations::BaseMutation
     else
       {
         product: nil,
-        errors: product.errros.full_messages
+        errors: product.errors.full_messages
       }
     end
   end
