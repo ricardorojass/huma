@@ -1,8 +1,10 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/react';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from '@apollo/client';
 import useForm from '../components/useForm';
+import { AdminProductList } from '../components/admin-product-list';
 
 const CREATE_PRODUCT = gql`
   mutation CreateProduct(
@@ -26,6 +28,8 @@ const CREATE_PRODUCT = gql`
         product {
           id
           name
+          costPrice
+          salePrice
           thumbnail
         }
         errors
@@ -34,13 +38,15 @@ const CREATE_PRODUCT = gql`
 `
 
 export default () => {
-  const { inputs, handleChange } = useForm({
+  const navigate = useNavigate();
+
+  const { inputs, handleChange, clearForm } = useForm({
     image: '',
     category: 'Bienestar',
     name: 'Bruma',
-    description: 'Ideal para el sueño',
-    costPrice: 12,
-    salePrice: 24
+    description: 'description test',
+    costPrice: 15000,
+    salePrice: 24000
   });
 
   const [createProduct, { loading, error, data }] = useMutation(
@@ -49,16 +55,25 @@ export default () => {
       variables: inputs,
     }
   );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await createProduct();
+      console.log('res: ' + data.createProduct.product.id)
+      clearForm();
+      navigate(`/admin/products/${data.createProduct.product.id}`);
+
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   if (error) return <p>Error : {error.message}</p>;
   return (
     <div className="h-screen mt-24 bg-base-200 lg:p-6">
       <form className="w-1/2 mx-auto form-control"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          console.log(inputs);
-          const res = await createProduct();
-          console.log('res: ' + JSON.stringify(res))
-        }}
+        onSubmit={handleSubmit}
       >
         <label htmlFor="image" className="label">
           <span className="label-text">Image</span>
@@ -145,6 +160,8 @@ export default () => {
         />
         <button type="submit" className="max-w-xs mt-4 font-bold text-base-100 bg-primary btn btn-primary">+ Crear Producto</button>
       </form>
+
+      <AdminProductList />
     </div>
   )
 

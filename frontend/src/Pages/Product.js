@@ -14,7 +14,7 @@ export default () => {
   if (error) return <p>Error : {error.message}</p>;
 
   const { product } = data;
-
+  console.log(product)
   return (
     <div className="mx-auto mt-24 lg:p-6 bg-base-200">
       <div className="flex flex-wrap w-full">
