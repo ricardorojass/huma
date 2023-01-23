@@ -23,7 +23,6 @@ module Types
     end
 
     def product_url
-      p "richi"
       Rails.application.routes.url_helpers.rails_blob_url(
         object.thumbnail,
         protocol: ActiveStorage::Current.url_options[:protocol],

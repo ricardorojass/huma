@@ -78,6 +78,7 @@ export default () => {
   return (
     <div className="h-screen mt-24 bg-base-200 lg:p-6">
       <form className="w-1/2 mx-auto form-control"
+        disabled={loading}
         onSubmit={handleSubmit}
       >
         <label htmlFor="image" className="label">
@@ -85,6 +86,7 @@ export default () => {
           <span className="label-text-alt">Image</span>
         </label>
         <input
+          required
           type="file"
           id="image"
           name="image"
@@ -112,7 +114,7 @@ export default () => {
           <span className="label-text-alt">Name</span>
         </label>
         <input
-          disabled={loading}
+          required
           type="text"
           id="name"
           name="name"
@@ -127,6 +129,7 @@ export default () => {
           <span className="label-text-alt">descripcion</span>
         </label>
         <input
+          required
           type="text"
           id="description"
           name="description"
@@ -141,6 +144,7 @@ export default () => {
           <span className="label-text-alt">Precio de costo</span>
         </label>
         <input
+          required
           type="number"
           id="costPrice"
           name="costPrice"
@@ -155,6 +159,7 @@ export default () => {
           <span className="label-text-alt">Precio de venta</span>
         </label>
         <input
+          required
           type="number"
           id="salePrice"
           name="salePrice"
