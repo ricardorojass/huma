@@ -28,9 +28,13 @@ const CREATE_PRODUCT = gql`
         product {
           id
           name
+          description
           costPrice
           salePrice
-          thumbnail
+          productUrl
+          category {
+            name
+          }
         }
         errors
     }
@@ -39,7 +43,7 @@ const CREATE_PRODUCT = gql`
 
 export default () => {
   const navigate = useNavigate();
-
+  const [product, setProduct] = useState({})
   const { inputs, handleChange, clearForm } = useForm({
     image: '',
     category: 'Bienestar',
@@ -60,9 +64,10 @@ export default () => {
     e.preventDefault();
     try {
       const { data } = await createProduct();
-      console.log('res: ' + data.createProduct.product.id)
+      const productRes = data.createProduct.product;
+      console.log('res: ' + productRes);
+      setProduct(productRes);
       clearForm();
-      navigate(`/admin/products/${data.createProduct.product.id}`);
 
     } catch(error) {
       console.log(error);
@@ -160,8 +165,8 @@ export default () => {
         />
         <button type="submit" className="max-w-xs mt-4 font-bold text-base-100 bg-primary btn btn-primary">+ Crear Producto</button>
       </form>
-
-      <AdminProductList />
+      <div className="divider"></div>
+      <AdminProductList product={product}/>
     </div>
   )
 

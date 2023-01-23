@@ -1,34 +1,17 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/react';
-import { ProductRow } from './product-row';
-import { useQuery, gql } from '@apollo/client';
+import { useEffect } from 'react';
 
-const GET_ALL_PRODUCTS = gql`
-  query {
-    products {
-      id
-      name
-      description
-      costPrice
-      salePrice
-      active
-      thumbnail
-    }
-  }
-`
-
-function AdminProductList() {
-  const { loading, error, data } = useQuery(GET_ALL_PRODUCTS);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+function AdminProductList({product}) {
+  const { id, name, description, category, costPrice, salePrice, productUrl } = product;
+  // TODO: include empty UI state
 
   return (
     <div>
-      <div className="pb-5 text-3xl font-bold">Product list</div>
+      <p className="pt-20 text-2xl font-bold">Producto creado</p>
       <div className="flex flex-col">
         <div className="overflow-x-auto">
           <table className="table w-full">
-            {/* <!-- head --> */}
             <thead>
               <tr>
                 <th>ID</th>
@@ -41,18 +24,21 @@ function AdminProductList() {
               </tr>
             </thead>
             <tbody>
-              {/* <!-- row 1 --> */}
-              {data.products.map(p => (
-                <tr key={p.id} aria-label={p.name} className="hover">
-                  <th>{p.id}</th>
-                  <td>image</td>
-                  <th>{p.name}</th>
-                  <td>{p.description}</td>
-                  <td>{p.category}</td>
-                  <td>{p.costPrice}</td>
-                  <td>{p.salePrice}</td>
-                </tr>
-              ))}
+              <tr key={id} aria-label={name}>
+                <th>{id}</th>
+                <td>
+                  <div className="avatar">
+                    <div className="w-12 h-12 mask mask-squircle">
+                      <img src={productUrl} alt={name} />}
+                    </div>
+                  </div>
+                </td>
+                <th>{name}</th>
+                <td>{description}</td>
+                <td>{category ? category.name : ''}</td>
+                <td>{costPrice}</td>
+                <td>{salePrice}</td>
+              </tr>
             </tbody>
           </table>
         </div>
