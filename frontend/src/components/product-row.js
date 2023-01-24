@@ -17,7 +17,7 @@ function ProductRow({product}) {
         </Link>
         <p className="pt-12">${product.salePrice} pesos</p>
         <div className="justify-center card-actions">
-          <button className="w-full text-base font-bold text-base-100 bg-primary btn bnt-primary">Añadir a la cesta</button>
+          <button src="" className="w-full text-base font-bold text-base-100 bg-primary btn bnt-primary">Añadir a la cesta</button>
         </div>
       </div>
     </div>

@@ -8,8 +8,8 @@ function AdminLastProduct({product}) {
 
   return (
     <div>
-      <p className="pt-20 text-2xl font-bold">Producto creado</p>
-      <div className="flex flex-col">
+      <p className="my-6 text-2xl font-bold">Producto creado</p>
+      <div className="flex flex-col border-2">
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>

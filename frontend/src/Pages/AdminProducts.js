@@ -12,8 +12,13 @@ export default () => {
 
   return (
     <div className="h-screen pt-24 mt-24 bg-base-200 lg:p-6">
-      <h1>Products</h1>
-      <div className="flex flex-col">
+      <div className="mb-8">
+        <a href="/admin/products/create">
+          <button className="btn btn-primary">+ Crear Producto</button>
+        </a>
+      </div>
+      <h1 className="mb-4 text-lg font-bold">Todos los Productos</h1>
+      <div className="flex flex-col border-2">
         <div className="overflow-x-auto">
           <table className="table w-full table-compact table-zebra">
             <thead>
