@@ -26,3 +26,19 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+export const GET_PRODUCTS_BY_CATEGORY = gql`
+  query Category($name: String!) {
+    category(name: $name) {
+      id
+      name
+      products {
+        id
+        name
+        description
+        salePrice
+        thumbnail
+      }
+    }
+  }
+`
