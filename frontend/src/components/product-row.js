@@ -3,11 +3,11 @@ import {jsx} from '@emotion/react'
 import { Link } from 'react-router-dom'
 
 function ProductRow({product}) {
-  const { id, name, description } = product;
+  const { id, name, description, thumbnail } = product;
 
   return (
     <div className="flex flex-col overflow-hidden shadow-xl h-96 w-fit card-compact card bg-base-100">
-      <figure><img src="https://placeimg.com/400/225/arch" alt={`${product.name}`} /></figure>
+      <figure><img src={thumbnail} alt={`${product.name}`} /></figure>
       <div className="card-body">
         <Link to={`/product/${product.id}`}
           className="leading-tight hover:link">

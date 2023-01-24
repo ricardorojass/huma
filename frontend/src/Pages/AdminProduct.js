@@ -1,10 +1,9 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/react';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from '@apollo/client';
 import useForm from '../components/useForm';
-import { AdminProductList } from '../components/admin-product-list';
+import { AdminLastProduct } from '../components/admin-last-product';
 
 const CREATE_PRODUCT = gql`
   mutation CreateProduct(
@@ -31,7 +30,7 @@ const CREATE_PRODUCT = gql`
           description
           costPrice
           salePrice
-          productUrl
+          thumbnail
           category {
             name
           }
@@ -42,7 +41,6 @@ const CREATE_PRODUCT = gql`
 `
 
 export default () => {
-  const navigate = useNavigate();
   const [product, setProduct] = useState({})
   const { inputs, handleChange, clearForm } = useForm({
     image: '',
@@ -171,7 +169,7 @@ export default () => {
         <button type="submit" className="max-w-xs mt-4 font-bold text-base-100 bg-primary btn btn-primary">+ Crear Producto</button>
       </form>
       <div className="divider"></div>
-      <AdminProductList product={product}/>
+      <AdminLastProduct product={product}/>
     </div>
   )
 

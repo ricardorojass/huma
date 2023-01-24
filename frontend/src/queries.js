@@ -9,3 +9,20 @@ export const GET_PRODUCT = gql`
     }
   }
 `;
+
+export const GET_PRODUCTS = gql`
+  query  {
+    products {
+      id
+      name
+      description
+      costPrice
+      salePrice
+      thumbnail
+      active
+      category {
+        name
+      }
+    }
+  }
+`;

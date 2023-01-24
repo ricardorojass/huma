@@ -2,8 +2,8 @@
 import {jsx} from '@emotion/react';
 import { useEffect } from 'react';
 
-function AdminProductList({product}) {
-  const { id, name, description, category, costPrice, salePrice, productUrl } = product;
+function AdminLastProduct({product}) {
+  const { id, name, description, category, costPrice, salePrice, thumbnail } = product;
   // TODO: include empty UI state
 
   return (
@@ -29,7 +29,7 @@ function AdminProductList({product}) {
                 <td>
                   <div className="avatar">
                     <div className="w-12 h-12 mask mask-squircle">
-                      <img src={productUrl} alt={name} />}
+                      <img src={thumbnail} alt={name} />}
                     </div>
                   </div>
                 </td>
@@ -47,4 +47,4 @@ function AdminProductList({product}) {
   )
 }
 
-export {AdminProductList}
+export {AdminLastProduct}

@@ -14,7 +14,7 @@ module Types
     field :active, Boolean
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :product_url, String, null: false
+    field :thumbnail, String, null: true
     field :products_count, Integer, null: true
     field :category, Types::CategoryType, null: false
 
@@ -22,13 +22,13 @@ module Types
       object.products.size
     end
 
-    def product_url
+    def thumbnail
       Rails.application.routes.url_helpers.rails_blob_url(
         object.thumbnail,
         protocol: ActiveStorage::Current.url_options[:protocol],
         host: ActiveStorage::Current.url_options[:host],
         port: ActiveStorage::Current.url_options[:port]
-      )
+      ) if object.thumbnail.attached?
     end
   end
 end

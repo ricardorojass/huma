@@ -13,6 +13,7 @@ const GET_PRODUCTS_BY_CATEGORY = gql`
         name
         description
         salePrice
+        thumbnail
       }
     }
   }
