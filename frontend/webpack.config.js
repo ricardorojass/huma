@@ -71,7 +71,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               'sourceMap': true,
-              'importLoaders': 1
+              'importLoaders': 2
             }
           },
           {
@@ -82,9 +82,10 @@ module.exports = {
               }
             },
           },
-          'sass-loader'
+          'sass-loader',
         ],
-      }
+      },
+
     ]
   },
 

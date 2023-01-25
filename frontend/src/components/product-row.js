@@ -6,7 +6,7 @@ function ProductRow({product}) {
   const { id, name, description, thumbnail } = product;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-md shadow-sm h-96 w-fit card-compact card bg-base-100">
+    <div className="flex flex-col mr-3 overflow-hidden rounded-md shadow-sm h-96 w-fit card-compact card bg-base-100">
       <figure><img src={thumbnail} alt={`${product.name}`} /></figure>
       <div className="card-body">
         <Link to={`/product/${product.id}`}
