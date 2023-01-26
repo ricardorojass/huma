@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :cart_items
   has_secure_password
 
   before_validation :generate_confirmation_token, on: :create

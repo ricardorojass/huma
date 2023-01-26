@@ -17,6 +17,7 @@ module Types
     field :thumbnail, String, null: true
     field :products_count, Integer, null: true
     field :category, Types::CategoryType, null: false
+    field :cart_items, [Types::CartItemType], null: false
 
     def products_count
       object.products.size
@@ -29,6 +30,10 @@ module Types
         host: ActiveStorage::Current.url_options[:host],
         port: ActiveStorage::Current.url_options[:port]
       ) if object.thumbnail.attached?
+    end
+
+    def cart_items
+      object.cart_items
     end
   end
 end

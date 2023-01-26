@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from "react"
+import { useEffect } from "react";
 import Loading from '../components/Loading';
 import { ListProductList } from '../components/list-product-list';
 

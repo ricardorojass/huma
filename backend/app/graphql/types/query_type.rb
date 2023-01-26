@@ -26,5 +26,12 @@ module Types
       Category.find_by(name: name)
     end
 
+    # /cartItems
+    field :cart_items, [Types::CartItemType], null: false
+    # includes method is for eager loading that avoid N+1
+    def cart_items
+      CartItem.includes(:product).all
+    end
+
   end
 end

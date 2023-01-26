@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { CiShoppingCart } from 'react-icons/ci'
 import { css, jsx } from '@emotion/react'
-import { Button, Input, FormGroup } from './lib'
+import { Button, Input, } from './lib'
+import Cart from './cart';
 
 function Header({title}) {
 
@@ -66,6 +67,7 @@ function Header({title}) {
           </a>
         </div>
       </div>
+      <Cart />
     </header>
   )
 }
