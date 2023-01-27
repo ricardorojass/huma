@@ -3,6 +3,7 @@ import { css, jsx } from '@emotion/react';
 import CartStyles from './styles/CartStyles';
 import { gql, useQuery } from '@apollo/client';
 import calcTotalPrice from '../lib/calcTotalPrice';
+import { useCart } from '../contexts/cartState';
 
 const GET_CART_ITEMS = gql`
   query {
@@ -37,16 +38,13 @@ function CartItem({cartItem}) {
 
 export default function Cart() {
   const { loading, error, data } = useQuery(GET_CART_ITEMS);
-  console.log(data);
+  const { cartOpen, closeCart ,toggleCart } = useCart();
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  const me = {
-    name: 'Ricardo Rojas',
-    email: 'reddrum7@gmail.com'
-  }
-
-  return <CartStyles open={true}>
+  return <CartStyles open={cartOpen}>
+    <button onClick={toggleCart} className="absolute w-8 p-2 bg-white border shadow-2xl -left-10 bottom-16">&lt;</button>
     <header className="flex flex-col items-center pb-8 mt-2 mb-8 border-b-4 border-neutral">
       {/* <h3 className="px-1 py-1 m-0 text-xl text-white bg-accent">{me.name}`s Cart</h3> */}
       <small className="text-sm font-medium">Sub Total</small>
@@ -62,3 +60,5 @@ export default function Cart() {
     </footer> */}
   </CartStyles>
 }
+
+export { GET_CART_ITEMS }

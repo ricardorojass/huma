@@ -10,6 +10,7 @@ class Mutations::CreateProduct < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(name:, description:, category:,  costPrice:, salePrice:, image:)
+    # TODO: receive category_id to avoid N+1 query
     categoryRecord = Category.find_by(name: category)
     blob = ActiveStorage::Blob.create_and_upload!(
       io: image,

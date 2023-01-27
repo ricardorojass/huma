@@ -9,6 +9,7 @@ import {
 import { onError } from '@apollo/client/link/error';
 import { createUploadLink } from 'apollo-upload-client';
 import { endpoint, prodEndpoint } from '../config';
+import { CartStateProvider } from './contexts/cartState';
 import App from "./App";
 
 const cache = new InMemoryCache()
@@ -37,6 +38,8 @@ const container = document.getElementById('root')
 const root = createRoot(container)
 root.render(
   <ApolloProvider client={client}>
-    <App/>
+    <CartStateProvider>
+      <App/>
+    </CartStateProvider>
   </ApolloProvider>
 )
