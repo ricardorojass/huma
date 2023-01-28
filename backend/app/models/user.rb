@@ -1,8 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules.
+  extend Devise::Models
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable, :omniauthable
+          :confirmable
   include DeviseTokenAuth::Concerns::User
 
   has_many :cart_items
@@ -18,7 +19,7 @@ class User < ApplicationRecord
 
   validates :password, presence: true, length: { minimum: 8 }, if: :new_record?
   validates :name, length: { maximum: 100 }
-  validates :confirmation_token, presence: true, uniqueness: { case_sensitive: true }
+  # validates :confirmation_token, presence: true, uniqueness: { case_sensitive: true }
 
   private
 
