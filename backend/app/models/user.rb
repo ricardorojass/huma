@@ -1,8 +1,12 @@
 class User < ApplicationRecord
-  has_many :cart_items
-  has_secure_password
+  # Include default devise modules.
+  devise :database_authenticatable, :registerable,
+          :recoverable, :rememberable, :trackable, :validatable,
+          :confirmable, :omniauthable
+  include DeviseTokenAuth::Concerns::User
 
-  before_validation :generate_confirmation_token, on: :create
+  has_many :cart_items
+
   before_validation :downcase_email
 
   enum role: [:user, :admin]
