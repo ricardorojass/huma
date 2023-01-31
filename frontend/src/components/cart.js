@@ -4,22 +4,7 @@ import CartStyles from './styles/CartStyles';
 import { gql, useQuery } from '@apollo/client';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import { useCart } from '../contexts/cartState';
-
-const GET_CART_ITEMS = gql`
-  query {
-    cartItems {
-      id
-      userId
-      quantity
-      product {
-        id
-        name
-        salePrice
-        thumbnail
-      }
-    }
-  }
-`
+import { GET_CART_ITEMS } from '../queries';
 
 function CartItem({cartItem}) {
   const { product } = cartItem;
@@ -60,5 +45,3 @@ export default function Cart() {
     </footer> */}
   </CartStyles>
 }
-
-export { GET_CART_ITEMS }

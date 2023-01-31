@@ -7,8 +7,8 @@ import Cart from './cart';
 function Header({title}) {
 
   return (
-    <header className="top-0 left-0 z-50 w-full bg-base-200 md:fixed ">
-      <div className="p-6 navbar">
+    <header className="top-0 left-0 z-50 w-full bg-secondary md:fixed ">
+      <div className="max-w-screen-xl m-auto navbar">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">

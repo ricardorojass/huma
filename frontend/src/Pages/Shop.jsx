@@ -23,9 +23,12 @@ export default () => {
 
 
   return (
-    <div className="h-screen p-6 bg-base-200">
-      <ListProductList category={categories.bienestar}/>
-      <ListProductList category={categories.facial}/>
+    <div className="h-auto pt-20 bg-base-200">
+      <div className="max-w-screen-xl m-auto">
+        <div className="bg-white max-h-28 h-28">Banner</div>
+        <ListProductList category={categories.bienestar}/>
+        <ListProductList category={categories.facial}/>
+      </div>
     </div>
   )
 }

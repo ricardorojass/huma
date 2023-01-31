@@ -6,6 +6,7 @@ export const GET_PRODUCT = gql`
       name
       description
       salePrice
+      thumbnail
     }
   }
 `;
@@ -42,3 +43,39 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
     }
   }
 `
+
+export const GET_CART_ITEMS = gql`
+  query {
+    cartItems {
+      id
+      userId
+      quantity
+      product {
+        id
+        name
+        salePrice
+        thumbnail
+      }
+    }
+  }
+`
+
+export const CREATE_CART_ITEM = gql`
+  mutation CreateCartItem(
+    $userId: ID
+    $productId: ID!
+  ) {
+    createCartItem(
+      input: {
+        userId: $userId
+        productId: $productId
+      }
+    ) {
+      cartItem {
+        id
+        quantity
+      }
+      errors
+    }
+  }
+`;

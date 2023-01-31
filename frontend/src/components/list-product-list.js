@@ -24,7 +24,7 @@ function ListProductList({category}) {
   };
 
   return (
-    <div className="my-24">
+    <div className="my-20">
       <div className="mb-16 text-3xl font-bold">{data.category.name}</div>
         <ul className="">
           <Slider {...settings}>

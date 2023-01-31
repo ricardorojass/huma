@@ -1,28 +1,54 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { GET_PRODUCT } from '../queries';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { useCart } from '../contexts/cartState';
+import { GET_PRODUCT, CREATE_CART_ITEM, GET_CART_ITEMS } from '../queries';
 
 export default () => {
   let { productId } = useParams();
-  const { loading, error, data } = useQuery(GET_PRODUCT, {
-    variables: { productId },
-  });
+  const { openCart } = useCart();
+  const loadProduct = useQuery(GET_PRODUCT, { variables: { productId } });
+  const { loading: productLoading, error: productError, data: productData } = loadProduct;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  useEffect(() => {
+    openCart();
+  })
 
-  const { product } = data;
-  console.log(product)
+  const [createCartItem, {
+    loading: cartItemLoading,
+    error: cartItemError,
+    data: cartItemData
+  }] = useMutation(
+    CREATE_CART_ITEM,
+    {
+      variables: {productId: productId, userId: null},
+      refetchQueries: [{ query: GET_CART_ITEMS}]
+    }
+  );
+
+  const addToCart = async () => {
+    try {
+      await createCartItem();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (productLoading) return <p>Loading...</p>;
+  if (productError) return <p>Error : {error.message}</p>;
+
+  const { product } = productData;
+  console.log('product page', product)
   return (
-    <div className="mx-auto mt-24 lg:p-6 bg-base-200">
-      <div className="flex flex-wrap w-full">
+    <div className="bg-base-200">
+      <div className="flex flex-wrap max-w-screen-xl mx-auto mt-16">
         <div className="w-full md:w-1/2">
           <div className="py-4 max-w-[100vw] md:pr-8 md:py-4">
             <div className="overflow-hidden">
               <div className="box-content flex h-full">
-                <figure><img className="block w-full rounded-2xl" src="https://placeimg.com/800/600/nature" alt={`${product.name}`} /></figure>
+                <figure><img className="block w-full rounded-2xl" src={product.thumbnail} alt={`${product.name}`} /></figure>
               </div>
             </div>
           </div>
@@ -84,7 +110,9 @@ export default () => {
                     <option value="1">1</option>
                     <option value="2">2</option>
                   </select>
-                  <button className="ml-4 text-base font-bold rounded-md hover:bg-primary hover:shadow-md text-base-100 bg-primary btn ">Añadir a la cesta</button>
+                  <button
+                    className="ml-4 text-base font-bold rounded-md hover:bg-primary hover:shadow-md text-base-100 bg-primary btn"
+                    onClick={addToCart}>Añadir al carrito</button>
                 </div>
               </div>
             </div>
