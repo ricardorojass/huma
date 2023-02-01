@@ -1,6 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2015",
+    "jsx": "react"
   },
-  "include": ["src", "node_modules"]
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "include": ["src/*"],
+  "exclude": ["node_modules"]
 }
