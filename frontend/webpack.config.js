@@ -46,6 +46,9 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/Pages'),
+      '@context': path.resolve(__dirname, 'src/context'),
+      '@lib': path.resolve(__dirname, 'src/lib'),
     },
   },
   devtool: 'source-map',
