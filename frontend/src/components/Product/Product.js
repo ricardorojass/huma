@@ -3,16 +3,17 @@ import { jsx } from '@emotion/react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
-import { useCart } from '../contexts/cartState';
+import { useCart } from '@contexts/cartState';
+import Page from '../Page';
 import {
   GET_PRODUCT,
   CREATE_CART_ITEM,
   GET_CART_ITEMS,
-} from '../queries';
+} from '../../queries';
 
-export default () => {
+function Product() {
   let { productId } = useParams();
-  const { openCart } = useCart();
+  const { setCartOpen } = useCart();
   const loadProduct = useQuery(GET_PRODUCT, {
     variables: { productId },
   });
@@ -23,8 +24,8 @@ export default () => {
   } = loadProduct;
 
   useEffect(() => {
-    openCart();
-  });
+    setCartOpen(true);
+  }, []);
 
   const [
     createCartItem,
@@ -52,7 +53,7 @@ export default () => {
   const { product } = productData;
   console.log('product page', product);
   return (
-    <div className="bg-base-200">
+    <Page title={product.name} className="bg-base-200">
       <div className="flex flex-wrap max-w-screen-xl mx-auto mt-16">
         <div className="w-full md:w-1/2">
           <div className="py-4 max-w-[100vw] md:pr-8 md:py-4">
@@ -148,6 +149,8 @@ export default () => {
           </div>
         </div>
       </div>
-    </div>
+    </Page>
   );
-};
+}
+
+export default Product;

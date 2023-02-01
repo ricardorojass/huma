@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 const Home = React.lazy(() => import('./components/Home'));
-const Product = React.lazy(() => import('./Pages/Product'));
+const Product = React.lazy(() => import('./components/Product'));
 const Login = React.lazy(() => import('./components/Login'));
 const AdminProduct = React.lazy(() => import('./Pages/AdminProduct'));
 const AdminProducts = React.lazy(() =>
