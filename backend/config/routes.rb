@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  # GraphQL API
+  post "/graphql", to: "graphql#execute"
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "graphql#execute"
   end
-  post "/graphql", to: "graphql#execute"
+
+  # Just a blank root path
+  root 'pages#blank'
 end

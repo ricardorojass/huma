@@ -1,16 +1,9 @@
 class User < ApplicationRecord
-  # Include default devise modules.
-  extend Devise::Models
-  devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable
-  include DeviseTokenAuth::Concerns::User
-
   has_many :cart_items
 
   before_validation :downcase_email
 
-  enum role: [:user, :admin]
+  enum role: { user: 0, admin: 1, superadmin: 2 }
 
   validates :email, presence: true,
                     uniqueness: true,
@@ -19,7 +12,7 @@ class User < ApplicationRecord
 
   validates :password, presence: true, length: { minimum: 8 }, if: :new_record?
   validates :name, length: { maximum: 100 }
-  # validates :confirmation_token, presence: true, uniqueness: { case_sensitive: true }
+  validates :confirmation_token, presence: true, uniqueness: { case_sensitive: true }
 
   private
 

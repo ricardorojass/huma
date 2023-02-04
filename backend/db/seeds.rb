@@ -1,3 +1,15 @@
+# user = User.create(
+#   email: Rails.application.credentials.dig(:db, :admin_email),
+#   password: Rails.application.credentials.dig(:db, :password),
+#   password_confirmation: Rails.application.credentials.dig(:db, :password),
+#   name: Rails.application.credentials.dig(:db, :admin_name),
+#   role: 'user'
+# )
+
+# if user
+#   Rails.logger.info "Login with #{Rails.application.credentials.dig(:db, :admin_email)} and #{Rails.application.credentials.dig(:db, :password)}"
+# end
+
 bienestar = Category.create!(name: 'Bienestar')
 facial = Category.create!(name: 'Facial')
 
