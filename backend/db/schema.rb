@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_25_175344) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_04_175511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_25_175344) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "key"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_api_keys_on_key"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -122,19 +130,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_25_175344) do
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
+    t.string "password_digest"
     t.string "name", default: "", null: false
+    t.datetime "last_logged_in_at", precision: nil
     t.string "confirmation_token"
+    t.text "confirmation_redirect_url"
     t.datetime "confirmed_at", precision: nil
     t.datetime "confirmation_sent_at", precision: nil
     t.string "reset_password_token"
+    t.text "reset_password_redirect_url"
     t.datetime "reset_password_sent_at", precision: nil
     t.integer "role", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "reset_password_redirect_url"
-    t.text "confirmation_redirect_url"
-    t.datetime "last_logged_in_at", precision: nil
-    t.string "password_digest"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token"
     t.index ["email"], name: "index_users_on_email"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
