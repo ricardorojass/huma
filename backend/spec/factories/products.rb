@@ -18,4 +18,14 @@ FactoryBot.define do
     active { true }
     association :category
   end
+
+  factory :bruma, class: Product do
+    name { 'Bruma' }
+    description { 'Ideal para el sueno' }
+    cost_price { '8.000' }
+    sale_price { '12.000' }
+    purchase_price { '' }
+    active { true }
+    association :category
+  end
 end

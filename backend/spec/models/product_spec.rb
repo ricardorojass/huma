@@ -7,7 +7,8 @@ RSpec.describe Product, type: :model do
     it { should validate_presence_of(:sale_price) }
 
     it 'has a valid factory' do
-      expect(build(:user)).to be_valid
+      expect(build(:product)).to be_valid
     end
+
   end
 end

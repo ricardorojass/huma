@@ -6,7 +6,6 @@ class Product < ApplicationRecord
   validates :cost_price, presence: true
   validates :sale_price, presence: true
 
-  has_one_attached :thumbnail
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }

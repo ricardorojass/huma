@@ -19,6 +19,10 @@ class GraphqlController < ApplicationController
     handle_error_in_development(e)
   end
 
+  def context
+    { current_user: 'current_user'}
+  end
+
   private
 
   # Handle variables in form data, JSON body, or a blank value

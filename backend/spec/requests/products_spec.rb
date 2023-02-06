@@ -8,12 +8,12 @@ RSpec.describe 'Products', type: :request do
   # Putting them in an array make it easier to create them in one line
   let(:products) { [bruma, rollonMenta] }
 
-  describe 'GET /api/books' do
-    # Before any test, let's create our 2 users
+  describe 'GET /api/products' do
+    # Before any test, let's create products
     before { products }
 
     context 'default behavior' do
-      before { get '/api/books' }
+      before { get '/api/products' }
 
       it 'gets HTTP status 200' do
         expect(response.status).to eq 200
