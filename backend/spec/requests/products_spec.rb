@@ -27,5 +27,27 @@ RSpec.describe 'Products', type: :request do
         expect(json_body['data'].size).to eq 2
       end
     end
+
+    describe 'field picking' do
+      context 'with the fields parameter' do
+        before { get '/api/products?fields=id,name,description,category_id' }
+
+        it 'gets products with only the id, name, description and category_id keys' do
+          json_body['data'].each do |product|
+            expect(product.keys).to eq ['id', 'name', 'description', 'category_id']
+          end
+        end
+      end
+
+      context 'without the "fields" parameter' do
+        before { get '/api/products' }
+
+        it 'gets products with all the fields specified in the presenter' do
+          json_body['data'].each do |product|
+            expect(product.keys).to eq ProductPresenter.build_attributes.map(&:to_s)
+          end
+        end
+      end
+    end # end of describe 'field picking'
   end
 end

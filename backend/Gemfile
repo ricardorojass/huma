@@ -19,6 +19,10 @@ gem 'apollo_upload_server', '2.1'
 gem 'aws-sdk-s3', '~> 1'
 gem 'graphql'
 
+# Upload files
+gem 'carrierwave'
+gem 'carrierwave-base64'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
