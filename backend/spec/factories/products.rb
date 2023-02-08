@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :product, class: Product do
+  factory :product do
     name { 'Bruma' }
     description { 'Ideal para el sueno' }
     cost_price { '8.000' }
@@ -19,11 +19,11 @@ FactoryBot.define do
     association :category
   end
 
-  factory :bruma, class: Product do
-    name { 'Bruma' }
-    description { 'Ideal para el sueno' }
-    cost_price { '8.000' }
-    sale_price { '12.000' }
+  factory :velaSandia, class: Product do
+    name { 'Vela de Soya Sandia' }
+    description { 'Ultrahidratante natural' }
+    cost_price { '16.000' }
+    sale_price { '19.000' }
     purchase_price { '' }
     active { true }
     association :category
