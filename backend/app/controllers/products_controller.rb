@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
 
   def index
-    products = paginate(Product.all).map do |product|
+    products = filter(sort(paginate(Product.all))).map do |product|
       FieldPicker.new(ProductPresenter.new(product, params)).pick
     end
 

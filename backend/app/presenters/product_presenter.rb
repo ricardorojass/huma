@@ -4,7 +4,7 @@ class ProductPresenter < BasePresenter
               :thumbnail, :category_id
   related_to  :category, :cart_items
   sort_by     :id, :name, :created_at, :updated_at
-  filter_by   :id, :name, :active, :category_id
+  filter_by   :id, :name, :active, :created_at, :category_id,
 
 
   def thumbnail

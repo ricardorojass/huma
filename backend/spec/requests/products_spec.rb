@@ -100,5 +100,56 @@ RSpec.describe 'Products', type: :request do
       end
     end # describe 'pagination' end
 
+    describe 'sorting' do
+      context 'with valid column name "id"' do
+        it 'sorts the books by "id desc"' do
+          get('/api/products?sort=id&dir=desc')
+          expect(json_body['data'].first['id']).to eq rollonMenta.id
+          expect(json_body['data'].last['id']).to eq bruma.id
+        end
+      end
+
+      context 'with invalid column name "fid"' do
+        before { get '/api/products?sort=fid&dir=asc' }
+        it 'gets "400 Bad Requests" back' do
+          expect(response.status).to eq 400
+        end
+
+        it 'receives an error' do
+          expect(json_body['error']).to_not be nil
+        end
+
+        it 'receives "sort=fid" as an invalid param' do
+          expect(json_body['error']['invalid_params']).to eq 'sort=fid'
+        end
+      end
+    end # describe 'sorting' end
+
+    describe 'filtering' do
+      context 'with valid filtering param "q[name_cont]=Bruma"' do
+        it 'receives "Bruma" back' do
+          get('/api/products?q[name_cont]=Bruma')
+          expect(json_body['data'].first['id']).to eq bruma.id
+          expect(json_body['data'].size).to eq 1
+        end
+      end
+
+      context 'with invalid param "q[fname_cont]=Bruma"' do
+        before { get '/api/products?q[fname_cont]=Bruma' }
+
+        it 'gets "400 Bad Requests" back' do
+          expect(response.status).to eq 400
+        end
+
+        it 'receives an error' do
+          expect(json_body['error']).to_not be nil
+        end
+
+        it 'receives "q[fname_cont]=Bruma" as an invalid param' do
+          expect(json_body['error']['invalid_params']).to eq 'q[fname_cont]=Bruma'
+        end
+      end
+    end # describe 'filtering' end
+
   end
 end
