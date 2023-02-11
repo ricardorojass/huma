@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'FieldPicker' do
-  # We define 'let' in cascade where each one of them is used by the # one below. This allows us to override any of them easily in a
-  # specific context.
   let(:bruma) { create(:product) }
   let(:params) { { fields: 'id,name' } }
   let(:presenter) { ProductPresenter.new(bruma, params) }
@@ -19,11 +17,12 @@ RSpec.describe 'FieldPicker' do
   end
 
   describe '#pick' do
-    context 'with the "fields" parameter containing "id,name,description"' do
-      it 'updates the presenter "data" with the product "id" and "name"' do
+    context 'with the "fields" parameter containing "id,name"' do
+
+      it 'updates the presenter "data" with the product "id", "name" and "category_id""' do
         expect(field_picker.pick.data).to eq({
           'id' => bruma.id,
-          'name' => 'Bruma'
+          'name' => 'Bruma',
         })
       end
 
@@ -32,10 +31,11 @@ RSpec.describe 'FieldPicker' do
         # in order to test the overriding system. To do this, the simplest
         # solution is to meta-programmatically add it.
         before { presenter.class.send(:define_method, :name) { 'Overridden!' } }
+
         it 'updates the presenter "data" with the name "Overridden!"' do
           expect(field_picker.pick.data).to eq({
             'id' => bruma.id,
-            'name' => 'Overridden!'
+            'name' => 'Overridden!',
           })
         end
         # Let's not forget to remove the method once we're done to
@@ -54,6 +54,14 @@ RSpec.describe 'FieldPicker' do
           'name' => 'Bruma',
           'category_id' => bruma.category_id
         })
+      end
+    end
+
+    context 'with invalid attributes "fid"' do
+      let(:params) { { fields: 'fid,name' } }
+
+      it 'raises a "RepresentationBuilderError"' do
+        expect { field_picker.pick }.to(raise_error(RepresentationBuilderError))
       end
     end
   end

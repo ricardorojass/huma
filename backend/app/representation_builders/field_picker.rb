@@ -2,28 +2,49 @@ class FieldPicker
 
   def initialize(presenter)
     @presenter = presenter
-    @fields = @presenter.params[:fields]
   end
 
   def pick
-    # If the `validate_fields` method returns a nil value, use `pickable` instead
-    (validate_fields || pickable).each do |field|
-      # Check if the `@presenter` object or the object being presented by
-      # `@presenter` responds to the method named `field`
-      value = (@presenter.respond_to?(field) ? @presenter : @presenter.object).send(field)
-      # Store the returned value in the `data` hash of the `@presenter` object
-      @presenter.data[field] = value
-    end
-    # Return the updated `@presenter` object
+    build_fields
     @presenter
+  end
+
+  def fields
+    @fields ||= validate_fields
   end
 
   private
 
   def validate_fields
-    return nil if @fields.blank?
-    validated = @fields.split(',').reject { |f| !pickable.include?(f) }
-    validated.any? ? validated : nil
+    return pickable if @presenter.params[:fields].blank?
+
+    fields = if !@presenter.params[:fields].blank?
+      @presenter.params[:fields].split(',')
+    else
+      []
+    end
+
+    return pickable if fields.blank?
+
+    fields.each do |field|
+      error!(field) unless pickable.include?(field)
+    end
+
+    fields
+  end
+
+  def build_fields
+    fields.each do |field|
+      target = @presenter.respond_to?(field) ? @presenter : @presenter.object
+      @presenter.data[field] = target.send(field) if target
+    end
+  end
+
+
+  def error!(field)
+    build_attributes = @presenter.class.build_attributes.join(',')
+    raise RepresentationBuilderError.new("fields=#{field}"),
+      "Invalid Field Pick. Allowed field: (#{build_attributes})"
   end
 
   def pickable

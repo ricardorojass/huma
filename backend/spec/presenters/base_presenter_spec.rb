@@ -26,9 +26,9 @@ RSpec.describe BasePresenter do
   end
 
   describe '.build_with' do
-    it 'stores ["id", "title"] in "build_attributes"' do
-      Presenter.build_with :id, :title
-      expect(Presenter.build_attributes).to eq ['id', 'title']
+    it 'stores ["id", "name"] in "build_attributes"' do
+      Presenter.build_with :id, :name
+      expect(Presenter.build_attributes).to eq ['id', 'name']
     end
   end
 

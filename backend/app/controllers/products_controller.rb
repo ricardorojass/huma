@@ -1,11 +1,12 @@
 class ProductsController < ApplicationController
 
   def index
-    products = filter(sort(paginate(Product.all))).map do |product|
-      FieldPicker.new(ProductPresenter.new(product, params)).pick
-    end
+    products = orchestrate_query(Product.all)
+    serializer = Huma::Serializer.new(data: products,
+                                      params: params,
+                                      actions: [:fields, :embeds])
 
-    render json: { data: products }.to_json
+    render json: serializer.to_json
   end
 
 end

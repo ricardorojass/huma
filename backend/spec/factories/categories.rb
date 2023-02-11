@@ -1,6 +1,11 @@
 FactoryBot.define do
   factory :category do
-    name { 'example' }
-    description { 'description example' }
+    name { 'bienestar' }
+    description { '' }
+  end
+
+  factory :facial, class: Category do
+    name { 'facial' }
+    description { '' }
   end
 end

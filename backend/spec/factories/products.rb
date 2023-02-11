@@ -6,7 +6,7 @@ FactoryBot.define do
     sale_price { '12.000' }
     purchase_price { '' }
     active { true }
-    association :category
+    category { association :category }
   end
 
   factory :rollonMenta, class: Product do
@@ -16,7 +16,7 @@ FactoryBot.define do
     sale_price { '24.000' }
     purchase_price { '' }
     active { true }
-    association :category
+    category { association :category }
   end
 
   factory :velaSandia, class: Product do
@@ -26,6 +26,6 @@ FactoryBot.define do
     sale_price { '19.000' }
     purchase_price { '' }
     active { true }
-    association :category
+    category { association :category }
   end
 end
