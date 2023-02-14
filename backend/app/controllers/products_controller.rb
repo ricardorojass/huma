@@ -2,11 +2,44 @@ class ProductsController < ApplicationController
 
   def index
     products = orchestrate_query(Product.all)
-    serializer = Huma::Serializer.new(data: products,
-                                      params: params,
-                                      actions: [:fields, :embeds])
-
-    render json: serializer.to_json
+    render serialize(products)
   end
 
+  def show
+    render serialize(product)
+  end
+
+  def create
+    if product.save
+      render serialize(product).merge(status: :created, location: product)
+    else
+      unprocessable_entity!(product)
+    end
+  end
+
+  def update
+    if product.update(product_params)
+      render serialize(product).merge(status: :ok)
+    else
+      unprocessable_entity!(product)
+    end
+  end
+
+  def destroy
+    product.destroy
+    render status: :no_content
+  end
+
+  private
+
+  def product
+    @product ||= params[:id] ? Product.find_by!(id: params[:id]) : Product.new(product_params)
+  end
+  alias_method :resource, :product
+
+  def product_params
+    params.require(:data).permit(:name, :description, :cost_price, :sale_price,
+                                 :purchase_price, :active, :created_at, :updated_at,
+                                 :category_id, :thumbnail)
+  end
 end
