@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # end
   scope :api do
     resources :products
+    resources :categories
     # resources :users, except: :put
   end
 

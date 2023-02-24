@@ -1,19 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe 'Products', type: :request do
-  let(:bruma) { create(:product) }
-  let(:velaSandia) { create(:velaSandia) }
-  let(:rollonMenta) { create(:rollonMenta) }
+RSpec.describe 'Categories', type: :request do
+  let(:bienestar) { create(:category, :with_products, products_count: 1) }
+  let(:facial) { create(:facial, :with_products, products_count: 1) }
+  let(:capilar) { create(:capilar, :with_products, products_count: 1) }
 
-  # Putting them in an array make it easier to create them in one line
-  let(:products) { [bruma, velaSandia, rollonMenta] }
+  let(:categories) { [bienestar, facial, capilar] }
 
-  describe 'GET /api/products' do
+  describe 'GET /api/categories' do
     # Before any test, let's create products
-    before { products }
+    before { categories }
 
     context 'default behavior' do
-      before { get '/api/products' }
+      before { get '/api/categories' }
 
       it 'gets HTTP status 200' do
         expect(response.status).to eq 200
@@ -30,27 +29,27 @@ RSpec.describe 'Products', type: :request do
 
     describe 'field picking' do
       context 'with the fields parameter' do
-        before { get '/api/products?fields=id,name,description,category_id' }
+        before { get '/api/categories?fields=id,name' }
 
-        it 'gets products with only the id, name, description and category_id keys' do
-          json_body['data'].each do |product|
-            expect(product.keys).to eq ['id', 'name', 'description', 'category_id']
+        it 'gets categories with only the id, name' do
+          json_body['data'].each do |category|
+            expect(category.keys).to eq ['id', 'name']
           end
         end
       end
 
       context 'without the "fields" parameter' do
-        before { get '/api/products' }
+        before { get '/api/categories' }
 
-        it 'gets products with all the fields specified in the presenter' do
-          json_body['data'].each do |product|
-            expect(product.keys).to eq ProductPresenter.build_attributes.map(&:to_s)
+        it 'gets categories with all the fields specified in the presenter' do
+          json_body['data'].each do |category|
+            expect(category.keys).to eq CategoryPresenter.build_attributes.map(&:to_s)
           end
         end
       end
 
       context 'with invalid field name "fid"' do
-        before { get '/api/products?fields=fid,name,category_id' }
+        before { get '/api/categories?fields=fid,name' }
 
         it 'gets "400 Bad Request" back' do
           expect(response.status).to eq 400
@@ -68,19 +67,30 @@ RSpec.describe 'Products', type: :request do
 
     describe 'embed picking' do
       context "with the 'embed' parameter" do
-        before { get '/api/products?embed=category' }
+        before { get '/api/categories?embed=products' }
 
-        it 'gets the products with his category embedded' do
-          json_body['data'].each do |product|
-            expect(product['category'].keys).to eq(
-              ['id', 'name', 'description', 'created_at', 'updated_at']
-            )
+        it 'gets the category with his products embedded' do
+          json_body['data'].each do |category|
+            expect(category['products'][0].keys).to eq(
+              [
+                'id',
+                'name',
+                'description',
+                'cost_price',
+                'sale_price',
+                'purchase_price',
+                'active',
+                'created_at',
+                'updated_at',
+                'thumbnail',
+                'category_id'
+              ])
           end
         end
       end
 
       context "with invalid 'embed' relation 'fake'" do
-        before { get '/api/products?embed=fake,category' }
+        before { get '/api/categories?embed=fake,products' }
 
         it 'gets "400 Bad Request" back' do
           expect(response.status).to eq 400
@@ -98,25 +108,25 @@ RSpec.describe 'Products', type: :request do
 
     describe 'pagination' do
       context 'when asking for the first_page' do
-        before { get('/api/products?page=1&per=2') }
+        before { get('/api/categories?page=1&per=2') }
 
         it 'receives HTTP status 200' do
           expect(response.status).to eq 200
         end
 
-        it 'receives only two products' do
+        it 'receives only two categories' do
           expect(json_body['data'].size).to eq 2
         end
 
         it 'receives a response with the Link header' do
           expect(response.headers['Link'].split(', ').first).to eq(
-            '<http://www.example.com/api/products?page=2&per=2>; rel="next"'
+            '<http://www.example.com/api/categories?page=2&per=2>; rel="next"'
           )
         end
       end
 
       context 'when asking for the second page' do
-        before { get('/api/products?page=2&per=2') }
+        before { get('/api/categories?page=2&per=2') }
 
         it 'receives HTTP status 200' do
           expect(response.status).to eq 200
@@ -129,7 +139,7 @@ RSpec.describe 'Products', type: :request do
 
 
       context "when sending invalid 'page' and 'per' parameters" do
-        before { get('/api/products?page=fake&per=10') }
+        before { get('/api/categories?page=fake&per=10') }
 
         it 'receives HTTP status 400' do
           expect(response.status).to eq 400
@@ -147,15 +157,15 @@ RSpec.describe 'Products', type: :request do
 
     describe 'sorting' do
       context 'with valid column name "id"' do
-        it 'sorts the books by "id desc"' do
-          get('/api/products?sort=id&dir=desc')
-          expect(json_body['data'].first['id']).to eq rollonMenta.id
-          expect(json_body['data'].last['id']).to eq bruma.id
+        it 'sorts the categories by "id desc"' do
+          get('/api/categories?sort=id&dir=desc')
+          expect(json_body['data'].first['id']).to eq capilar.id
+          expect(json_body['data'].last['id']).to eq bienestar.id
         end
       end
 
       context 'with invalid column name "fid"' do
-        before { get '/api/products?sort=fid&dir=asc' }
+        before { get '/api/categories?sort=fid&dir=asc' }
         it 'gets "400 Bad Requests" back' do
           expect(response.status).to eq 400
         end
@@ -171,16 +181,16 @@ RSpec.describe 'Products', type: :request do
     end # describe 'sorting' end
 
     describe 'filtering' do
-      context 'with valid filtering param "q[name_cont]=Bruma"' do
-        it 'receives "Bruma" back' do
-          get('/api/products?q[name_cont]=Bruma')
-          expect(json_body['data'].first['id']).to eq bruma.id
+      context 'with valid filtering param "q[name_cont]=Bienestar"' do
+        it 'receives "bienestar" back' do
+          get('/api/categories?q[name_cont]=Bienestar')
+          expect(json_body['data'].first['id']).to eq bienestar.id
           expect(json_body['data'].size).to eq 1
         end
       end
 
-      context 'with invalid param "q[fname_cont]=Bruma"' do
-        before { get '/api/products?q[fname_cont]=Bruma' }
+      context 'with invalid param "q[fname_cont]=bienestar"' do
+        before { get '/api/categories?q[fname_cont]=bienestar' }
 
         it 'gets "400 Bad Requests" back' do
           expect(response.status).to eq 400
@@ -190,44 +200,43 @@ RSpec.describe 'Products', type: :request do
           expect(json_body['error']).to_not be nil
         end
 
-        it 'receives "q[fname_cont]=Bruma" as an invalid param' do
-          expect(json_body['error']['invalid_params']).to eq 'q[fname_cont]=Bruma'
+        it 'receives "q[fname_cont]=bienestar" as an invalid param' do
+          expect(json_body['error']['invalid_params']).to eq 'q[fname_cont]=bienestar'
         end
       end
     end # describe 'filtering' end
 
   end
 
-  describe 'GET /api/producst/:id' do
+  describe 'GET /api/categories/:id' do
 
     context 'with existing resource' do
-      before { get "/api/products/#{bruma.id}" }
+      before { get "/api/categories/#{bienestar.id}" }
 
       it 'gets HTTP status 200' do
         expect(response.status).to eq 200
       end
 
-      it 'receives the "Bruma" product as JSON' do
-        expected = { data: ProductPresenter.new(bruma, {}).fields.embeds }
+      it 'receives the "bienestar" product as JSON' do
+        expected = { data: CategoryPresenter.new(bienestar, {}).fields.embeds }
         expect(response.body).to eq(expected.to_json)
       end
     end
 
     context 'with nonexistent resource' do
       it 'gets HTTP status 404' do
-        get "/api/products/231457"
+        get "/api/categories/231457"
         expect(response.status).to eq 404
       end
     end
   end # describe 'GET /api/products/:id'
 
-  describe 'POST /api/products' do
-    let(:bienestar) { create(:category) }
-    before { post '/api/products', params: { data: params } }
+  describe 'POST /api/catetories' do
+    before { post '/api/categories', params: { data: params } }
 
     context 'with valid parameters' do
       let(:params) do
-        attributes_for(:product, category_id: bienestar.id)
+        attributes_for(:category, name: bienestar.name)
       end
 
       it 'gets HTTP status 201' do
@@ -235,22 +244,23 @@ RSpec.describe 'Products', type: :request do
       end
 
       it 'receives the newly created resource' do
-        expect(json_body['data']['name']).to eq 'Bruma'
+        expect(json_body['data']['name']).to eq 'Bienestar'
       end
 
       it 'adds a record in the database' do
-        expect(Product.count).to eq 1
+        binding.pry
+        expect(Category.count).to eq 2
       end
 
       it 'gets the new resource location in the Location header' do
         expect(response.headers['Location']).to eq(
-          "http://www.example.com/api/products/#{Product.first.id}"
+          "http://www.example.com/api/categories/#{Category.second.id}"
         )
       end
     end
 
     context 'with invalid parameters' do
-      let(:params) { attributes_for(:product, name: '') }
+      let(:params) { attributes_for(:category, name: '') }
 
       it 'gets HTTP status 422' do
         expect(response.status).to eq 422
@@ -258,32 +268,32 @@ RSpec.describe 'Products', type: :request do
 
       it 'receives the error details' do
         expect(json_body['error']['invalid_params']).to eq(
-          { 'category'=>['must exist'], 'name'=>["can't be blank"] }
+          { 'name'=>["can't be blank"] }
         )
       end
 
       it 'does not add a record in the database' do
-        expect(Product.count).to eq 0
+        expect(Category.count).to eq 0
       end
     end
   end # describe 'POST /api/products'
 
-  describe 'PATCH /api/products/:id' do
-    before { patch "/api/products/#{bruma.id}", params: { data: params } }
+  describe 'PATCH /api/categories/:id' do
+    before { patch "/api/categories/#{bienestar.id}", params: { data: params } }
 
     context 'with valid parameters' do
-      let(:params) { { name: 'Bruma de Almohada' } }
+      let(:params) { { name: 'Bienestar' } }
 
       it 'gets HTTP status 200' do
         expect(response.status).to eq 200
       end
 
       it 'receives the updated resource' do
-        expect(json_body['data']['name']).to eq 'Bruma de Almohada'
+        expect(json_body['data']['name']).to eq 'Bienestar'
       end
 
       it 'updates the record in the database' do
-        expect(Product.first.name).to eq 'Bruma de Almohada'
+        expect(Category.first.name).to eq 'Bienestar'
       end
     end
 
@@ -301,28 +311,28 @@ RSpec.describe 'Products', type: :request do
       end
 
       it 'does not add a record in the database' do
-        expect(Product.first.name).to eq 'Bruma'
+        expect(Category.first.name).to eq 'Bienestar'
       end
     end
   end # describe 'PATCH /api/products'
 
 
-  describe 'DELETE /api/products/:id' do
+  describe 'DELETE /api/categories/:id' do
     context 'with existing resource' do
-      before { delete "/api/products/#{bruma.id}" }
+      before { delete "/api/categories/#{bienestar.id}" }
 
       it 'gets HTTP status 204' do
         expect(response.status).to eq 204
       end
 
       it 'deletes the product from the database' do
-        expect(Product.count).to eq 0
+        expect(Category.count).to eq 0
       end
     end
 
     context 'with nonexistent resource' do
       it 'gets HTTP status 404' do
-        delete '/api/products/2314323'
+        delete '/api/categories/2314323'
         expect(response.status).to eq 404
       end
     end
