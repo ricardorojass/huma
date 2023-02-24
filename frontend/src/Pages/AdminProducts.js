@@ -1,12 +1,10 @@
 /** @jsx jsx */
-import {jsx} from '@emotion/react';
-import { useQuery } from '@apollo/client';
-import { GET_PRODUCTS } from '../queries';
+import { jsx } from "@emotion/react";
 
 // TODO: show images from server
 export default () => {
-  const { loading, error, data } = useQuery(GET_PRODUCTS);
-
+  // const { loading, error, data } = useQuery(GET_PRODUCTS);
+  const data = [];
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
@@ -33,7 +31,7 @@ export default () => {
               </tr>
             </thead>
             <tbody>
-              {data.products.map((p) =>
+              {data.products.map((p) => (
                 <tr key={p.id} aria-label={p.name}>
                   <th>{p.id}</th>
                   <td>
@@ -45,16 +43,15 @@ export default () => {
                   </td>
                   <th>{p.name}</th>
                   <td>{p.description}</td>
-                  <td>{p.category ? p.category.name : ''}</td>
+                  <td>{p.category ? p.category.name : ""}</td>
                   <td>{p.costPrice}</td>
                   <td>{p.salePrice}</td>
                 </tr>
-
-              )}
+              ))}
             </tbody>
           </table>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

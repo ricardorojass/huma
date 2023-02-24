@@ -1,27 +1,14 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
-import { useCart } from '@contexts/cartState';
-import Page from '../Page';
-import {
-  GET_PRODUCT,
-  CREATE_CART_ITEM,
-  GET_CART_ITEMS,
-} from '../../queries';
+import { jsx } from "@emotion/react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useCart } from "@contexts/cartState";
+import Page from "../Page";
+import { useGetProductQuery } from "@queries/products.query";
 
 function Product() {
   let { productId } = useParams();
   const { setCartOpen } = useCart();
-  const loadProduct = useQuery(GET_PRODUCT, {
-    variables: { productId },
-  });
-  const {
-    loading: productLoading,
-    error: productError,
-    data: productData,
-  } = loadProduct;
 
   useEffect(() => {
     setCartOpen(true);
@@ -29,11 +16,7 @@ function Product() {
 
   const [
     createCartItem,
-    {
-      loading: cartItemLoading,
-      error: cartItemError,
-      data: cartItemData,
-    },
+    { loading: cartItemLoading, error: cartItemError, data: cartItemData },
   ] = useMutation(CREATE_CART_ITEM, {
     variables: { productId: productId, userId: null },
     refetchQueries: [{ query: GET_CART_ITEMS }],
@@ -51,7 +34,7 @@ function Product() {
   if (productError) return <p>Error : {error.message}</p>;
 
   const { product } = productData;
-  console.log('product page', product);
+  console.log("product page", product);
   return (
     <Page title={product.name} className="bg-base-200">
       <div className="flex flex-wrap max-w-screen-xl mx-auto mt-16">
@@ -81,9 +64,7 @@ function Product() {
               </header>
             </section>
             <section>
-              <h3 className="mb-4 text-xl font-bold">
-                Detalle del Producto
-              </h3>
+              <h3 className="mb-4 text-xl font-bold">Detalle del Producto</h3>
               <div className="flex flex-col gap-y-2">
                 <div className="border collapse collapse-arrow bg-base-100 rounded-box">
                   <input type="checkbox" />

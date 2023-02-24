@@ -1,81 +1,38 @@
 /** @jsx jsx */
-import {jsx} from '@emotion/react';
-import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
-import useForm from '../components/useForm';
-import { AdminLastProduct } from '../components/admin-last-product';
-
-const CREATE_PRODUCT = gql`
-  mutation CreateProduct(
-    $name: String!
-    $description: String!
-    $category: String!
-    $costPrice: Float!
-    $salePrice: Float!
-    $image: Upload
-  ) {
-    createProduct(
-      input: {
-        name: $name
-        description: $description
-        category: $category
-        costPrice: $costPrice
-        salePrice: $salePrice
-        image: $image
-      }
-    ) {
-        product {
-          id
-          name
-          description
-          costPrice
-          salePrice
-          thumbnail
-          category {
-            name
-          }
-        }
-        errors
-    }
-  }
-`
+import { jsx } from "@emotion/react";
+import { useState } from "react";
+import useForm from "../components/useForm";
+import { AdminLastProduct } from "../components/admin-last-product";
 
 export default () => {
-  const [product, setProduct] = useState({})
+  const [product, setProduct] = useState({});
   const { inputs, handleChange, clearForm } = useForm({
-    image: '',
-    category: 'Bienestar',
-    name: 'Bruma',
-    description: 'description test',
+    image: "",
+    category: "Bienestar",
+    name: "Bruma",
+    description: "description test",
     costPrice: 15000,
-    salePrice: 24000
+    salePrice: 24000,
   });
-
-  const [createProduct, { loading, error, data }] = useMutation(
-    CREATE_PRODUCT,
-    {
-      variables: inputs,
-    }
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await createProduct();
       const productRes = data.createProduct.product;
-      console.log('res: ' + productRes);
+      console.log("res: " + productRes);
       setProduct(productRes);
       clearForm();
-
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   if (error) return <p>Error : {error.message}</p>;
   return (
     <div className="h-screen mt-24 bg-base-200 lg:p-6">
-      <form className="w-1/2 mx-auto form-control"
+      <form
+        className="w-1/2 mx-auto form-control"
         disabled={loading}
         onSubmit={handleSubmit}
       >
@@ -90,7 +47,7 @@ export default () => {
           name="image"
           className="w-full file-input"
           onChange={handleChange}
-          />
+        />
 
         <label htmlFor="category" className="label">
           <span className="label-text">Categoria</span>
@@ -101,8 +58,11 @@ export default () => {
           name="category"
           value={inputs.category}
           onChange={handleChange}
-          className="select select-bordered">
-          <option disabled defaultValue>Selecciona una categoria de producto</option>
+          className="select select-bordered"
+        >
+          <option disabled defaultValue>
+            Selecciona una categoria de producto
+          </option>
           <option>Facial</option>
           <option>Bienestar</option>
         </select>
@@ -166,11 +126,15 @@ export default () => {
           value={inputs.salePrice}
           onChange={handleChange}
         />
-        <button type="submit" className="max-w-xs mt-4 font-bold text-base-100 bg-primary btn btn-primary">+ Crear Producto</button>
+        <button
+          type="submit"
+          className="max-w-xs mt-4 font-bold text-base-100 bg-primary btn btn-primary"
+        >
+          + Crear Producto
+        </button>
       </form>
       <div className="divider"></div>
-      <AdminLastProduct product={product}/>
+      <AdminLastProduct product={product} />
     </div>
-  )
-
-}
+  );
+};

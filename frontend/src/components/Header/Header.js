@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import { CiShoppingCart } from 'react-icons/ci';
-import { css, jsx } from '@emotion/react';
-import { Button, Input } from '../lib';
-import Cart from '../cart';
+import { CiShoppingCart } from "react-icons/ci";
+import { css, jsx } from "@emotion/react";
+import { Button, Input } from "../lib";
+import Cart from "../cart";
 
 function Header() {
   return (
@@ -45,26 +45,17 @@ function Header() {
                 </a>
                 <ul className="p-6 leading-8 bg-base-100 rounded-3xl">
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Facial
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Capilar
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Bienestar
                     </a>
                   </li>
@@ -98,34 +89,22 @@ function Header() {
                 </a>
                 <ul className="p-6 leading-8 bg-base-100 rounded-3xl w-52">
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Facial
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Capilar
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Bienestar
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="pt-1 md:hover:text-secondary"
-                    >
+                    <a href="#" className="pt-1 md:hover:text-secondary">
                       Aceites Esenciales
                     </a>
                   </li>
@@ -179,7 +158,7 @@ function Header() {
 }
 
 Header.defaultProps = {
-  title: 'Huma',
+  title: "Huma",
 };
 
 export default Header;

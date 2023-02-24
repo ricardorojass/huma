@@ -1,7 +1,6 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
-import { Link } from 'react-router-dom';
-import { gql, useMutation } from '@apollo/client';
+import { jsx } from "@emotion/react";
+import { Link } from "react-router-dom";
 
 export default function ProductRow({ product }) {
   const { id, name, description, thumbnail } = product;
@@ -16,12 +15,8 @@ export default function ProductRow({ product }) {
           to={`/product/${product.id}`}
           className="leading-tight hover:link"
         >
-          <h2 className="text-lg font-bold leading-none">
-            {product.name}
-          </h2>
-          <p className="text-base text-neutral">
-            {product.description}
-          </p>
+          <h2 className="text-lg font-bold leading-none">{product.name}</h2>
+          <p className="text-base text-neutral">{product.description}</p>
         </Link>
         <p className="pt-12">${product.salePrice} pesos</p>
       </div>

@@ -1,45 +1,27 @@
-import * as React from 'react'
-import './bootstrap'
-import {
-  ApolloProvider,
-  InMemoryCache,
-  ApolloClient,
-  ApolloLink,
-} from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
-import { createUploadLink } from 'apollo-upload-client';
-import { endpoint, prodEndpoint } from '../config';
-import { CartStateProvider } from './contexts/cartState';
+import * as React from "react";
+import "./bootstrap";
+import { endpoint, prodEndpoint } from "../config";
 import App from "./App";
+import tokenStorage from "@lib/tokenStorage";
+import { HashRouter } from "react-router-dom";
+import { CartStateProvider } from "./contexts/cartState";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import queryClient from "@queries/queryClient";
+const queryClient = new QueryClient();
 
-const cache = new InMemoryCache()
-const link = createUploadLink({
-  uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint
-});
-const onErrorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message},
-          Location: ${locations}, Path: ${path}`,
-      ),
-    );
-  if (networkError) console.log(`[Network error]: ${networkError},
-    backend is unreachable. Is it running?`);
-});
-
-const client = new ApolloClient({
-  cache,
-  link: onErrorLink.concat(link),
-});
-
-import { createRoot } from 'react-dom/client'
-const container = document.getElementById('root')
-const root = createRoot(container)
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("root");
+const root = createRoot(container);
 root.render(
-  <ApolloProvider client={client}>
-    <CartStateProvider>
-      <App/>
-    </CartStateProvider>
-  </ApolloProvider>
-)
+  <React.StrictMode>
+    <HashRouter>
+      <QueryClientProvider client={queryClient}>
+        <CartStateProvider>
+          <App />
+        </CartStateProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </HashRouter>
+  </React.StrictMode>
+);

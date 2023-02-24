@@ -1,19 +1,13 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
-import { useQuery } from '@apollo/client';
-import Slider from 'react-slick';
-import { GET_PRODUCTS_BY_CATEGORY } from '../queries';
-import ProductRow from './product-row';
+import { jsx } from "@emotion/react";
+import Slider from "react-slick";
+import { useGetCategoriesQuery } from "@queries/categories.query";
+import ProductRow from "./product-row";
 
-export default function ListProductList({ category }) {
-  const { loading, error, data } = useQuery(
-    GET_PRODUCTS_BY_CATEGORY,
-    {
-      variables: { name: category },
-    }
-  );
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+export default function ListProductList() {
+  const query = "?embed=products";
+  const { data } = useGetCategoriesQuery(query);
+  const categories = data?.data;
 
   const settings = {
     dots: false,
@@ -24,19 +18,21 @@ export default function ListProductList({ category }) {
   };
 
   return (
-    <div className="my-20">
-      <div className="mb-16 text-3xl font-bold">
-        {data.category.name}
-      </div>
-      <ul className="">
-        <Slider {...settings}>
-          {data.category.products.map((p) => (
-            <li key={p.id} aria-label={p.name}>
-              <ProductRow product={p} />
-            </li>
-          ))}
-        </Slider>
-      </ul>
+    <div>
+      {categories?.map((category) => (
+        <div key={category.id} className="my-20">
+          <div className="mb-16 text-3xl font-bold">{category.name}</div>
+          <ul className="">
+            <Slider {...settings}>
+              {category.products.map((product) => (
+                <li key={product.id} aria-label={product.name}>
+                  <ProductRow product={product} />
+                </li>
+              ))}
+            </Slider>
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
