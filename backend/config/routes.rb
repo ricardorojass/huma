@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   scope :api do
     resources :products
     resources :categories
+    resources :cart_items
     # resources :users, except: :put
   end
 
-  # Just a blank root path
-  root 'pages#blank'
+  root to: 'products#index'
 end

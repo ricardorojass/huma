@@ -42,3 +42,7 @@ jabonAvena = Product.create!(name: 'Jabon Avena', description: 'Refresca e hidra
 jabonArbolDeTe = Product.create!(name: 'Jabon Arbol de Te', description: 'Refresca e hidrata la piel', cost_price: '15.000', sale_price: '32.000', category: facial)
 
 jabonCafe = Product.create!(name: 'Jabon Cafe', description: 'Refresca e hidrata la piel', cost_price: '15.000', sale_price: '32.000', category: facial)
+
+CartItem.destroy_all
+cart1 = CartItem.create!(product: bruma)
+cart2 = CartItem.create!(product: rollonMenta)

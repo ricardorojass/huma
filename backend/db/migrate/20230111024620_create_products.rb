@@ -7,6 +7,7 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.decimal :sale_price
       t.decimal :purchase_price
       t.boolean :active, default: true
+      t.string :image, index: true
 
       t.timestamps
     end

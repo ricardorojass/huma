@@ -17,25 +17,26 @@ export async function getProduct({ query }) {
 export async function createProduct({
   name,
   description,
-  const_price,
+  cost_price,
   sale_price,
-  purchase_price,
   active,
-  thumbnail,
+  image,
   category_id,
 }) {
   return await apiClient({
     method: "post",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     url: `/products`,
     data: {
       product: {
         name,
         description,
-        const_price,
+        cost_price,
         sale_price,
-        purchase_price,
         active,
-        thumbnail,
+        image,
         category_id,
       },
     },

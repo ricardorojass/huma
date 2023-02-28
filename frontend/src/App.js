@@ -12,14 +12,16 @@ import { FullPageSpinner } from "./components/lib";
 const App = () => {
   return (
     <Suspense fallback={<FullPageSpinner />}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/product/:productId" element={<Product />} />
-        <Route path="/admin/products/create" element={<AdminProduct />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-      </Routes>
-      <footer>This is the footer</footer>
+      <Router forceRefresh={true}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/product/:productId" element={<Product />} />
+          <Route path="/admin/products/create" element={<AdminProduct />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+        </Routes>
+        <footer>This is the footer</footer>
+      </Router>
     </Suspense>
   );
 };

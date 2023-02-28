@@ -18,6 +18,10 @@ class ProductsController < ApplicationController
   end
 
   def update
+    image_file = params[:data][:image]
+    if image_file.present?
+      product.image.attach(image_file)
+    end
     if product.update(product_params)
       render serialize(product).merge(status: :ok)
     else
@@ -38,8 +42,8 @@ class ProductsController < ApplicationController
   alias_method :resource, :product
 
   def product_params
-    params.require(:data).permit(:name, :description, :cost_price, :sale_price,
+    params.require(:product).permit(:name, :description, :cost_price, :sale_price,
                                  :purchase_price, :active, :created_at, :updated_at,
-                                 :category_id, :thumbnail)
+                                 :category_id, :image)
   end
 end

@@ -198,7 +198,7 @@ RSpec.describe 'Products', type: :request do
 
   end
 
-  describe 'GET /api/producst/:id' do
+  describe 'GET /api/products/:id' do
 
     context 'with existing resource' do
       before { get "/api/products/#{bruma.id}" }

@@ -20,8 +20,9 @@ gem 'aws-sdk-s3', '~> 1'
 gem 'graphql'
 
 # Upload files
-gem 'carrierwave'
-gem 'carrierwave-base64'
+gem 'aws-sdk-s3', '~> 1'
+gem 'mini_magick'
+gem 'file_validators'
 
 # Pagination
 gem 'kaminari'

@@ -1,4 +1,5 @@
 class BasePresenter
+
   CLASS_ATTRIBUTES = {
     build_with: :build_attributes,
     related_to: :relations,

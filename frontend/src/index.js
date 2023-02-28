@@ -14,14 +14,10 @@ import { createRoot } from "react-dom/client";
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-  <React.StrictMode>
-    <HashRouter>
-      <QueryClientProvider client={queryClient}>
-        <CartStateProvider>
-          <App />
-        </CartStateProvider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </HashRouter>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <CartStateProvider>
+      <App />
+    </CartStateProvider>
+    <ReactQueryDevtools />
+  </QueryClientProvider>
 );
