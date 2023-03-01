@@ -3,19 +3,34 @@ import { jsx } from "@emotion/react";
 import { useState } from "react";
 import useForm from "../components/useForm";
 import { useCreateProductMutation } from "@queries/products.query";
+import { useGetCategoriesQuery } from "@queries/categories.query";
 import { AdminLastProduct } from "../components/admin-last-product";
 
 export default () => {
+  const { isLoading, error, data } = useGetCategoriesQuery();
+  const categories = data?.data || [];
+  const options = categories.map((category) => (
+    <option key={category.id} value={category.id}>
+      {category.name}
+    </option>
+  ));
+
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [product, setProduct] = useState({});
   const { inputs, handleChange, clearForm } = useForm({
     image: "",
-    category_id: 1,
+    category_id: 5,
     name: "Bruma",
     description: "description test",
     cost_price: 15000,
     sale_price: 24000,
     purchase_price: 30000,
   });
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+    handleChange(event);
+  };
 
   const createProductMutation = useCreateProductMutation();
 
@@ -26,17 +41,19 @@ export default () => {
       createProductMutation.mutate(inputs, {
         onSuccess: (res) => {
           console.log("query", res);
+          // setProduct(res);
+          clearForm();
         },
       });
-
-      // setProduct(productRes);
-      clearForm();
     } catch (error) {
       console.log(error);
     }
   };
 
-  // if (error) return <p>Error : {error.message}</p>;
+  // const { categories } = data;
+
+  if (isLoading) return <p>Loading categories...</p>;
+  if (error) return <p>Error : {error.message}</p>;
   return (
     <div className="h-screen mt-24 bg-base-200 lg:p-6">
       <form
@@ -56,7 +73,6 @@ export default () => {
           className="w-full file-input"
           onChange={handleChange}
         />
-
         <label htmlFor="category_id" className="label">
           <span className="label-text">Categoria</span>
           <span className="label-text-alt">Categoria</span>
@@ -64,17 +80,13 @@ export default () => {
         <select
           id="category_id"
           name="category_id"
-          value={inputs.category_id}
-          onChange={handleChange}
+          value={selectedCategory}
+          onChange={handleCategoryChange}
           className="select select-bordered"
         >
-          <option disabled defaultValue>
-            Selecciona una categoria de producto
-          </option>
-          <option>Facial</option>
-          <option>Bienestar</option>
+          <option value="">Selecciona una categoria de producto</option>
+          {options}
         </select>
-
         <label htmlFor="name" className="label">
           <span className="label-text">Name</span>
           <span className="label-text-alt">Name</span>
@@ -89,7 +101,6 @@ export default () => {
           value={inputs.name}
           onChange={handleChange}
         />
-
         <label htmlFor="description" className="label">
           <span className="label-text">Descripcion</span>
           <span className="label-text-alt">descripcion</span>
@@ -104,7 +115,6 @@ export default () => {
           value={inputs.description}
           onChange={handleChange}
         />
-
         <label htmlFor="cost_price" className="label">
           <span className="label-text">Precio de costo</span>
           <span className="label-text-alt">Precio de costo</span>
@@ -119,7 +129,6 @@ export default () => {
           value={inputs.cost_price}
           onChange={handleChange}
         />
-
         <label htmlFor="sale_price" className="label">
           <span className="label-text">Precio de venta</span>
           <span className="label-text-alt">Precio de venta</span>

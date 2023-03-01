@@ -10,6 +10,14 @@ class ProductsController < ApplicationController
   end
 
   def create
+    path = params[:product][:image].tempfile.path
+    ImageProcessing::MiniMagick
+      .source(path)
+      .resize_to_limit(1200, 1200)
+      .call(destination: path)
+
+    product = Product.new(product_params)
+    product.category = Category.find(params[:product][:category_id])
     if product.save
       render serialize(product).merge(status: :created, location: product)
     else

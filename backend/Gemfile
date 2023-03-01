@@ -15,14 +15,13 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
-gem 'apollo_upload_server', '2.1'
-gem 'aws-sdk-s3', '~> 1'
-gem 'graphql'
+# gem 'apollo_upload_server', '2.1'
+# gem 'graphql'
 
 # Upload files
 gem 'aws-sdk-s3', '~> 1'
-gem 'mini_magick'
 gem 'file_validators'
+gem "image_processing", "~> 1.0"
 
 # Pagination
 gem 'kaminari'
