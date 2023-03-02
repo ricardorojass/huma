@@ -2,7 +2,6 @@ class CartItemsController < ApplicationController
 
   def index
     cart_items = orchestrate_query(CartItem.all)
-    binding.pry
     render serialize(cart_items)
   end
 

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :api_key do
-    key { "RandomKey" }
+    key { "MyString" }
     active { true }
   end
 end

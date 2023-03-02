@@ -10,14 +10,17 @@ class ProductsController < ApplicationController
   end
 
   def create
-    path = params[:product][:image].tempfile.path
-    ImageProcessing::MiniMagick
-      .source(path)
-      .resize_to_limit(1200, 1200)
-      .call(destination: path)
+    image_params = params[:data][:image]
+    if image_params.present?
+      path = image_params.tempfile.path
+      ImageProcessing::MiniMagick
+        .source(path)
+        .resize_to_limit(1200, 1200)
+        .call(destination: path)
+    end
 
     product = Product.new(product_params)
-    product.category = Category.find(params[:product][:category_id])
+    product.category = Category.find(params[:data][:category_id])
     if product.save
       render serialize(product).merge(status: :created, location: product)
     else
@@ -50,7 +53,7 @@ class ProductsController < ApplicationController
   alias_method :resource, :product
 
   def product_params
-    params.require(:product).permit(:name, :description, :cost_price, :sale_price,
+    params.require(:data).permit(:name, :description, :cost_price, :sale_price,
                                  :purchase_price, :active, :created_at, :updated_at,
                                  :category_id, :image)
   end

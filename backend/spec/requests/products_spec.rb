@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Products', type: :request do
+
+  before do
+    allow_any_instance_of(ProductsController).to(
+      receive(:validate_auth_scheme).and_return(true))
+    allow_any_instance_of(ProductsController).to(
+      receive(:authenticate_client).and_return(true))
+  end
+
   let(:bruma) { create(:product) }
   let(:velaSandia) { create(:velaSandia) }
   let(:rollonMenta) { create(:rollonMenta) }
@@ -227,7 +235,13 @@ RSpec.describe 'Products', type: :request do
 
     context 'with valid parameters' do
       let(:params) do
-        attributes_for(:product, category_id: bienestar.id)
+        attributes_for(
+          :product,
+          name: bruma.name,
+          description: bruma.description,
+          cost_price: bruma.cost_price,
+          sale_price: bruma.sale_price,
+          category_id: bienestar.id)
       end
 
       it 'gets HTTP status 201' do
@@ -239,18 +253,26 @@ RSpec.describe 'Products', type: :request do
       end
 
       it 'adds a record in the database' do
-        expect(Product.count).to eq 1
+        expect(Product.count).to eq 2
       end
 
       it 'gets the new resource location in the Location header' do
         expect(response.headers['Location']).to eq(
-          "http://www.example.com/api/products/#{Product.first.id}"
+          "http://www.example.com/api/products/#{Product.second.id}"
         )
       end
     end
 
     context 'with invalid parameters' do
-      let(:params) { attributes_for(:product, name: '') }
+      let(:params) do
+        {
+          name: '',
+          description: '',
+          cost_price: bruma.cost_price,
+          sale_price: bruma.sale_price,
+          category_id: bienestar.id
+        }
+      end
 
       it 'gets HTTP status 422' do
         expect(response.status).to eq 422
@@ -258,12 +280,12 @@ RSpec.describe 'Products', type: :request do
 
       it 'receives the error details' do
         expect(json_body['error']['invalid_params']).to eq(
-          { 'category'=>['must exist'], 'name'=>["can't be blank"] }
+          { 'name'=>["can't be blank"] }
         )
       end
 
       it 'does not add a record in the database' do
-        expect(Product.count).to eq 0
+        expect(Product.count).to eq 1
       end
     end
   end # describe 'POST /api/products'

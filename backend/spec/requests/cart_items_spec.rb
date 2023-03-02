@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'CartItems', type: :request do
+
+  before do
+    allow_any_instance_of(CartItemsController).to(
+      receive(:validate_auth_scheme).and_return(true))
+    allow_any_instance_of(CartItemsController).to(
+      receive(:authenticate_client).and_return(true))
+  end
+
   let(:cart1) { create(:cart1) }
   let(:cart2) { create(:cart2) }
   let(:bruma) { create(:product) }
@@ -8,7 +16,6 @@ RSpec.describe 'CartItems', type: :request do
   let(:cart_items) { [cart1, cart2] }
 
   describe 'GET /api/cart_items' do
-    # Before any test, let's create products
     before { cart_items }
 
     context 'default behavior' do
@@ -44,7 +51,7 @@ RSpec.describe 'CartItems', type: :request do
                 'active',
                 'created_at',
                 'updated_at',
-                'thumbnail',
+                'image',
                 'category_id'
               ])
           end
@@ -98,7 +105,7 @@ RSpec.describe 'CartItems', type: :request do
 
     context 'with valid parameters' do
       let(:params) do
-        attributes_for(:cart1, product: bruma.id)
+        attributes_for(:cart1, product_id: bruma.id)
       end
 
       it 'gets HTTP status 201' do
@@ -106,11 +113,11 @@ RSpec.describe 'CartItems', type: :request do
       end
 
       it 'receives the newly created resource' do
-        expect(json_body['data']['id']).to eq cart1.id
+        expect(json_body['data']['product_id']).to eq bruma.id
       end
 
       it 'adds a record in the database' do
-        expect(CartItem.count).to eq 2
+        expect(CartItem.count).to eq 1
       end
 
       it 'gets the new resource location in the Location header' do
@@ -129,7 +136,7 @@ RSpec.describe 'CartItems', type: :request do
 
       it 'receives the error details' do
         expect(json_body['error']['invalid_params']).to eq(
-          { 'product_id'=>["can't be blank"] }
+          { 'product'=>["must exist"] }
         )
       end
 
@@ -137,7 +144,7 @@ RSpec.describe 'CartItems', type: :request do
         expect(CartItem.count).to eq 0
       end
     end
-  end # describe 'POST /api/products'
+  end # describe 'POST /api/cart_items'
 
   describe 'PATCH /api/cart_items/:id' do
     before { patch "/api/cart_items/#{cart1.id}", params: { data: params } }
@@ -167,7 +174,7 @@ RSpec.describe 'CartItems', type: :request do
 
       it 'receives the error details' do
         expect(json_body['error']['invalid_params']).to eq(
-          { 'product_id'=>["can't be blank"] }
+          { 'product'=>["must exist"] }
         )
       end
 

@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  # include Authentication
+  include Authentication
 
   rescue_from QueryBuilderError, with: :builder_error
   rescue_from RepresentationBuilderError, with: :builder_error
