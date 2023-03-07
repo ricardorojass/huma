@@ -1,6 +1,9 @@
 class User < ApplicationRecord
+  has_secure_password
+
   has_many :cart_items
 
+  before_validation :generate_confirmation_token, on: :create
   before_validation :downcase_email
 
   enum role: { user: 0, admin: 1, superadmin: 2 }
@@ -12,7 +15,34 @@ class User < ApplicationRecord
 
   validates :password, presence: true, length: { minimum: 8 }, if: :new_record?
   validates :name, length: { maximum: 100 }
-  validates :confirmation_token, presence: true, uniqueness: { case_sensitive: true }
+  validates :confirmation_token, presence: true,
+                                 uniqueness: { case_sensitive: true }
+
+  def confirm
+    update_columns({
+      confirmation_token: nil,
+      confirmed_at: Time.now
+    })
+  end
+
+  def init_password_reset(redirect_url)
+    assign_attributes({
+      reset_password_token: SecureRandom.hex,
+      reset_password_sent_at: Time.now,
+      reset_password_redirect_url: redirect_url
+    })
+    save
+  end
+
+  def complete_password_reset(password)
+    assign_attributes({
+      password: password,
+      reset_password_token: nil,
+      reset_password_sent_at: nil,
+      reset_password_redirect_url: nil
+    })
+    save
+  end
 
   private
 

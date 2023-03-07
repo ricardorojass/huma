@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :user do
-    name { 'Ricardo Rojas' }
-    email { 'reddrum7@gmail.com' }
-    password { '12345678' }
+    email { 'john@example.com' }
+    name { 'John Doe' }
+    password { 'password' }
     role { :user }
 
     trait :confirmation_redirect_url do

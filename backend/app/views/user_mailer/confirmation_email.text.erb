@@ -1,0 +1,13 @@
+User#confirmation_email
+
+Hola,
+
+Confirma tu email dando click en el link de abajo:
+
+<% link_to('Confirma tu cuenta', {
+            controller: "user_confirmations",
+            action: :show,
+            confirmation_token: @user.confirmation_token
+          })%>
+
+Bienvenido a Huma!
