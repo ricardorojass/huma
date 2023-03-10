@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Products', type: :request do
-
-  before do
-    allow_any_instance_of(ProductsController).to(
-      receive(:validate_auth_scheme).and_return(true))
-    allow_any_instance_of(ProductsController).to(
-      receive(:authenticate_client).and_return(true))
-  end
+  include_context 'Skip Auth'
 
   let(:bruma) { create(:product) }
   let(:velaSandia) { create(:velaSandia) }

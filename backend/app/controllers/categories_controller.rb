@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class CategoriesController < ApplicationController
+  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authorize_actions
 
   def index
     categories = orchestrate_query(Category.all)
@@ -37,7 +41,7 @@ class CategoriesController < ApplicationController
                                  Category.new(category_params)
   end
   alias_method :resource, :category
-  
+
   def category_params
     params.require(:data).permit(:name, :description)
   end

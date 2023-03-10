@@ -1,4 +1,6 @@
 class CartItemsController < ApplicationController
+  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :skip_authorization # TODO: add authorization
 
   def index
     cart_items = orchestrate_query(CartItem.all)
@@ -32,12 +34,12 @@ class CartItemsController < ApplicationController
 
   private
 
-  def cart_item 
+  def cart_item
     @cart_item ||= params['id'] ? CartItem.find_by!(id: params[:id]) :
-                                 CartItem.new(cart_item_params)
+                                  CartItem.new(cart_item_params)
   end
   alias_method :resource, :cart_item
-  
+
   def cart_item_params
     params.require(:data).permit(:quantity, :product_id, :user_id)
   end

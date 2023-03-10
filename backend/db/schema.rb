@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_28_005137) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_08_000847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_tokens", force: :cascade do |t|
+    t.string "token_digest"
+    t.bigint "user_id"
+    t.bigint "api_key_id"
+    t.datetime "accessed_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["api_key_id"], name: "index_access_tokens_on_api_key_id"
+    t.index ["user_id", "api_key_id"], name: "index_access_tokens_on_user_id_and_api_key_id", unique: true
+    t.index ["user_id"], name: "index_access_tokens_on_user_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -147,6 +159,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_28_005137) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
+  add_foreign_key "access_tokens", "api_keys"
+  add_foreign_key "access_tokens", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "products"

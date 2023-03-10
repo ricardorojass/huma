@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'CartItems', type: :request do
-
-  before do
-    allow_any_instance_of(CartItemsController).to(
-      receive(:validate_auth_scheme).and_return(true))
-    allow_any_instance_of(CartItemsController).to(
-      receive(:authenticate_client).and_return(true))
-  end
+  include_context 'Skip Auth'
 
   let(:cart1) { create(:cart1) }
   let(:cart2) { create(:cart2) }
@@ -157,7 +151,7 @@ RSpec.describe 'CartItems', type: :request do
       end
 
       it 'receives the updated resource' do
-        expect(json_body['data']['quantity']).to eq 2 
+        expect(json_body['data']['quantity']).to eq 2
       end
 
       it 'updates the record in the database' do
@@ -179,7 +173,7 @@ RSpec.describe 'CartItems', type: :request do
       end
 
       it 'does not add a record in the database' do
-        expect(CartItem.first.quantity).to eq 1 
+        expect(CartItem.first.quantity).to eq 1
       end
     end
   end # describe 'PATCH /api/products'

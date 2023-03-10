@@ -2,13 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-
-  before do
-    allow_any_instance_of(UsersController).to(
-      receive(:validate_auth_scheme).and_return(true))
-    allow_any_instance_of(UsersController).to(
-      receive(:authenticate_client).and_return(true))
-  end
+  include_context 'Skip Auth'
 
   let(:john) { create(:user) }
   let(:users) { [john] }
@@ -29,7 +23,7 @@ RSpec.describe 'Users', type: :request do
       end
 
       it 'receives all 2 users' do
-        expect(json_body['data'].size).to eq 1
+        expect(json_body['data'].size).to eq 2
       end
     end
   end # describe GET /api/users end
@@ -65,7 +59,7 @@ RSpec.describe 'Users', type: :request do
     it 'removes the user' do
       delete "/api/users/#{john.id}"
       expect(response.status).to eq 204
-      expect(User.count).to be 0
+      expect(User.count).to be 1
     end
   end
 end

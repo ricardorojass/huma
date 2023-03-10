@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class ProductsController < ApplicationController
+  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authorize_actions
 
   def index
     products = orchestrate_query(Product.all)

@@ -27,4 +27,12 @@ FactoryBot.define do
       reset_password_sent_at { Time.now }
     end
   end
+
+  factory :admin, class: User do
+    email { 'admin@example.com' }
+    password { 'password' }
+    name { 'Admin' }
+    confirmed_at { Time.now }
+    role { :admin }
+  end
 end

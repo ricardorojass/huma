@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
     resources :user_confirmations, only: :show, param: :confirmation_token
     resources :password_resets, only: [:show, :create, :update], param: :reset_token
+
+    resources :access_tokens, only: :create do
+      delete '/', action: :destroy, on: :collection
+    end
   end
 
   root to: 'products#index'
