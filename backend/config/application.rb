@@ -28,6 +28,7 @@ module Backend
     config.api_only = true
     config.filter_parameters += [:image]
 
+    config.i18n.default_locale = :'es'
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"

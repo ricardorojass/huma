@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_000847) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_23_025938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,13 +63,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_000847) do
   end
 
   create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
-    t.bigint "user_id"
-    t.integer "quantity", default: 1, null: false
+    t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id"
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
-    t.index ["user_id"], name: "index_cart_items_on_user_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -81,54 +89,67 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_000847) do
 
   create_table "coupons", force: :cascade do |t|
     t.string "code"
-    t.float "discount"
+    t.decimal "discount"
     t.datetime "valid_from"
     t.datetime "valid_until"
     t.integer "max_uses"
-    t.integer "uses"
-    t.boolean "active"
+    t.integer "uses", default: 0
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "full_name"
-    t.string "address"
-    t.string "city"
-    t.string "department"
-    t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
   create_table "order_items", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.bigint "order_id", null: false
     t.integer "quantity"
-    t.float "price"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "COP", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id", "order_id"], name: "index_order_items_on_product_id_and_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.float "total"
-    t.float "discount_total"
-    t.string "coupon_code"
+    t.bigint "user_id", null: false
+    t.bigint "coupon_id"
     t.integer "status"
+    t.integer "shipping_cents", default: 0, null: false
+    t.string "shipping_currency", default: "COP", null: false
+    t.integer "total_amount_cents", default: 0, null: false
+    t.string "total_amount_currency", default: "COP", null: false
+    t.integer "discounted_amount_cents", default: 0, null: false
+    t.string "discounted_amount_currency", default: "COP", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["coupon_id"], name: "index_orders_on_coupon_id"
+    t.index ["user_id", "status"], name: "index_orders_on_user_id_and_status"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.string "payment_method"
+    t.money "amount", scale: 2
+    t.string "idempotency_key"
+    t.integer "status", default: 0
+    t.string "charge_id"
+    t.text "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_payments_on_order_id"
   end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "cost_price"
-    t.decimal "sale_price"
-    t.decimal "purchase_price"
+    t.text "search_keywords"
+    t.integer "quantity"
+    t.decimal "shipping_weight"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "COP", null: false
     t.boolean "active", default: true
     t.string "image"
     t.datetime "created_at", null: false
@@ -137,12 +158,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_000847) do
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["image"], name: "index_products_on_image"
     t.index ["name"], name: "index_products_on_name"
+    t.index ["search_keywords"], name: "index_products_on_search_keywords"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
-    t.string "name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "city"
+    t.string "department"
     t.datetime "last_logged_in_at", precision: nil
     t.string "confirmation_token"
     t.text "confirmation_redirect_url"
@@ -163,10 +188,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_000847) do
   add_foreign_key "access_tokens", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
-  add_foreign_key "cart_items", "users"
-  add_foreign_key "customers", "users"
+  add_foreign_key "carts", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "coupons"
+  add_foreign_key "orders", "users"
+  add_foreign_key "payments", "orders"
   add_foreign_key "products", "categories"
 end

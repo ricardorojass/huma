@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
-  has_many :cart_items
+  has_many :orders
   has_many :access_token
+  has_one :cart
 
   before_validation :generate_confirmation_token, on: :create
   before_validation :downcase_email

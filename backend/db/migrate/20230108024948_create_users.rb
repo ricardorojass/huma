@@ -3,7 +3,10 @@ class CreateUsers < ActiveRecord::Migration[7.0]
     create_table :users do |t|
       t.string :email, index: true, unique: true
       t.string :password_digest
-      t.string :name
+      t.string :first_name
+      t.string :last_name
+      t.string :city
+      t.string :department
       t.timestamp :last_logged_in_at
       t.string :confirmation_token, index: true, unique: true
       t.text :confirmation_redirect_url
